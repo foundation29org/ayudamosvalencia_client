@@ -44,7 +44,7 @@
     "Registration": "Registration",
     "Data protection users": "DATA PROTECTION: your data will be the responsibility of SJD Barcelona Children's Hospital to provide you with the specialized medical support you request; and you can transfer them to third parties if you expressly consent to it and to obtain the purpose of the treatment. If you wish to exercise your rights or for more information, please visit",
     "Data protection prof": "DATA PROTECTION: your data will be the responsibility of SJD Barcelona Children's Hospital to provide you with the specialized medical support you request and may be transferred to third parties if you expressly consent to it and to obtain the purpose of the treatment. As a professional you have the express authorization of the patient to communicate to the SJD Barcelona Children's Hospital the data that corresponds to him. If you wish to exercise your rights or for more information, please visit",
-    "I have read and understood the": "Accept the data protection policy of Rare Diseases Hub Ukraine.",
+    "I have read and understood the": "Accept the data protection policy of AyudamosValencia.",
     "consent": "You consent to the transfer of data to third parties.",
     "Privacy Policy": "Privacy policy",
     "Get Started": "Get started",
@@ -177,7 +177,7 @@
     "step3": "What is the legitimation of the treatment of data?",
     "step4": "What rights does the user have?",
     "step5": "Assignment of data",
-    "step1-1": "In accordance with current regulations, the user is informed that the data controller of the information provided through Rare Diseases Hub Ukraine (hereinafter referred to as Application) will be Hospital Sant Joan de Déu (hereinafter, 'HSJD'), whose contact information is as follows",
+    "step1-1": "In accordance with current regulations, the user is informed that the data controller of the information provided through AyudamosValencia (hereinafter referred to as Application) will be Hospital Sant Joan de Déu (hereinafter, 'HSJD'), whose contact information is as follows",
     "step1-2": "Address",
     "step2-1": "When users provide personal data through the forms on the Application, their personal data will be processed for the following purposes",
     "step2-2": "If you are a patient, caregiver or healthcare professional: to manage the registration and administration of the user account registered in the Application. This processing of personal data will be carried out on the legal basis of Article .2. h) of the GDPR. If there is a transfer to third parties it is under the legal basis of art. 9.2. a) of the RGPD:",
@@ -229,10 +229,10 @@
     "Another type": "Another type"
   },
   "footer":{
-    "Dx29info": "Rare Diseases Hub Ukraine is a search and reference tool provided for informational purposes and not intended to replace the clinician’s judgement or experience. It should not be used to diagnose or treat medical conditions."
+    "Dx29info": "AyudamosValencia is a search and reference tool provided for informational purposes and not intended to replace the clinician’s judgement or experience. It should not be used to diagnose or treat medical conditions."
   },
   "InfoSystem":{
-    "titleReload": "A new version of Rare Diseases Hub Ukraine is available",
+    "titleReload": "A new version of Rare AyudamosValencia is available",
     "bodyReload": "The page will be reloaded automatically to keep you updated"
   },
   "land":{
@@ -261,7 +261,7 @@
     "t3.2": "Send a letter with a brief medical history, current health status, contacts of the attending physician, as well as the attached epicrisis 2021-2022 to",
     "t3.3.1": "Call",
     "t3.3.2": "Monday to Friday from 9 am to 5 pm Central European Time",
-    "t4.title": "Collaborate with Rare Diseases Hub Ukraine",
+    "t4.title": "Collaborate with AyudamosValencia",
     "t4.1": "If you are an organization and you can provide any help to patients with a rare disease, please write an email to",
     "t4.2": "Organizations that are working behind this tool:",
     "t5.title": "Our collaborators",
@@ -446,7 +446,7 @@
   "cookies":{
     "title": "Cookies policy",
     "t1": "1. Object",
-    "p1.1": "The SJD Barcelona Children’s Hospital (hereinafter HSJD) recognises the importance of the applicable legislation and regulations pertaining to privacy and data protection. In this sense, the protection of the safety, integrity and confidentiality of our clients' and users' information is very important to us and we therefore strive to act responsibly in this regard. This page describes our application’s (hereinafter, the Application) cookies policy <a href='https://reliefukraine.net' target='_blank'>https://reliefukraine.net</a> (hereinafter the Application).",
+    "p1.1": "The SJD Barcelona Children’s Hospital (hereinafter HSJD) recognises the importance of the applicable legislation and regulations pertaining to privacy and data protection. In this sense, the protection of the safety, integrity and confidentiality of our clients' and users' information is very important to us and we therefore strive to act responsibly in this regard. This page describes our application’s (hereinafter, the Application) cookies policy <a href='https://ayudamosvalencia.com/' target='_blank'>https://ayudamosvalencia.com/</a> (hereinafter the Application).",
     "p1.2": "The provisions of both the Legal Notice and the Privacy policy will apply for the purpose of this Cookies Policy.",
     "t2": "2. Acceptance of the Cookies Policy",
     "p2.1": "As specified in the first layer ('banner on cookies'), the User has accepted or is able to accept this Cookies Policy. The use of technical means to prevent cookies from being downloaded to the user's browser does not invalidate the consent given for legal purposes, although the technical result may be that some or none of the cookies will not be downloaded, the effects of which are described later in this Cookies Policy.",

@@ -64,11 +64,6 @@ export class AuthService {
       //this.setGroup(tokenPayload.group);
 
       this.setPlatform(sessionStorage.getItem('platform'));
-      if(sessionStorage.getItem('platform')!=undefined){
-        if(sessionStorage.getItem('platform')=='H29'){
-          window.location.href = 'https://health29-dev.azurewebsites.net/'
-        }
-      }
 
       return true;
     }else{
@@ -116,9 +111,6 @@ export class AuthService {
 
             this.setPlatform(res.platform);
             sessionStorage.setItem('platform', res.platform)
-            if(res.platform=='H29'){
-              window.location.href = 'https://health29-dev.azurewebsites.net/';
-            }
 
           }else{
             this.isloggedIn = false;

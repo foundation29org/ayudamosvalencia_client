@@ -47,11 +47,12 @@ export class MapaPageComponent implements OnInit{
   
   needTypes = [
     { id: 'all', label: 'Todas las necesidades' },
-    { id: 'electricity', label: 'Falta de electricidad' },
-    { id: 'water', label: 'Falta de agua potable' },
-    { id: 'food', label: 'Necesidad de alimentos' },
-    { id: 'medicines', label: 'Necesidad de medicamentos' },
-    { id: 'medical_assistance', label: 'Necesidad de asistencia sanitaria' },
+    { id: 'electricity', label: 'Suministro de electricidad' },
+    { id: 'water', label: 'Agua potable' },
+    { id: 'sumwater', label: 'Suministro de agua' },
+    { id: 'food', label: 'Alimentos' },
+    { id: 'alojamiento', label: 'Alojamiento' },
+    { id: 'ropa', label: 'Ropa' },
     { id: 'other', label: 'Otras necesidades' }
   ];
 

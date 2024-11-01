@@ -227,9 +227,9 @@ export class UsersAdminComponent implements OnDestroy{
     var a = document.createElement('a');
     var dateNow = new Date();
     var stringDateNow = this.dateService.transformDate(dateNow);
-    a.download    = "reliefukraine_"+stringDateNow+".csv";
+    a.download    = "AyudamosValencia_"+stringDateNow+".csv";
     a.href        = url;
-    a.textContent = "reliefukraine_"+stringDateNow+".csv";
+    a.textContent = "AyudamosValencia_"+stringDateNow+".csv";
     a.setAttribute("id", "download")
 
     document.getElementById('content').appendChild(a);

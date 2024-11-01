@@ -18,7 +18,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
-import { MapaPageComponent } from './mapa/mapa.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
@@ -49,8 +48,7 @@ import { MatRadioModule } from '@angular/material/radio';
         TermsConditionsPageComponent,
         PrivacyPolicyPageComponent,
         PasswordValidator,
-        MyFilterPipe,
-        MapaPageComponent
+        MyFilterPipe
     ],
     entryComponents:[TermsConditionsPageComponent]
 })

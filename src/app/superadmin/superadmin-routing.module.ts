@@ -5,6 +5,7 @@ import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 import { UsersAdminComponent } from "./users-admin/users-admin.component";
 import { SupportComponent } from './support/support.component';
+import { MapaPageComponent } from './mapa/mapa.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,13 @@ const routes: Routes = [
         data: {
           title: 'Support',
           expectedRole: ['SuperAdmin']
+        }
+      },
+      {
+        path: 'mapa',
+        component: MapaPageComponent,
+        data: {
+          title: 'Mapa'
         }
       }
     ]

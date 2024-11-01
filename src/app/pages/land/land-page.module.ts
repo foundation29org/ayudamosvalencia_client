@@ -15,7 +15,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
-import { AgmCoreModule } from '@agm/core';
 
 
 @NgModule({
@@ -37,11 +36,7 @@ import { AgmCoreModule } from '@agm/core';
         MatRadioModule,
         NgApexchartsModule,
         MatDatepickerModule,
-        MatNativeDateModule ,
-        AgmCoreModule.forRoot({
-            apiKey: "AIzaSyAcbDF_C9btRGAUWSePhOR4UxsVbtK3cJA",
-            language: sessionStorage && sessionStorage.getItem('lang') || 'en'
-          }),
+        MatNativeDateModule
     ],
     declarations: [
         LandPageComponent

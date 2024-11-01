@@ -19,7 +19,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { SupportComponent } from './support/support.component';
 import {AutosizeModule} from 'ngx-autosize';
 import { SafePipe2 } from '../shared/services/safe2.pipe';
-
+import { MapaPageComponent } from './mapa/mapa.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -44,7 +44,8 @@ import { SafePipe2 } from '../shared/services/safe2.pipe';
     declarations: [
         UsersAdminComponent,
         SupportComponent,
-        SafePipe2
+        SafePipe2,
+        MapaPageComponent
     ],
     providers: [],
 })

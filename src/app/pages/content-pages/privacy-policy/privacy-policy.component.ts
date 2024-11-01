@@ -17,8 +17,4 @@ export class PrivacyPolicyPageComponent {
   goTo(url){
     document.getElementById(url).scrollIntoView(true);
   }
-
-  back(){
-    window.history.back();
-  }
 }

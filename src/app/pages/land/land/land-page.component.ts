@@ -21,28 +21,22 @@ export interface NeedRequest {
 })
 
 export class LandPageComponent implements OnInit {
-    isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-    iconjsd: string = 'assets/img/land/logos/sjd_en.png';
-    iconmoh: string = 'assets/img/land/logos/MoH_en.png';
     lang: string = 'es';
     lat: number = 39.4699; // Coordenadas por defecto de Valencia
     lng: number = -0.3763;
-    zoom: number = 7;
     needs: string[] = [];
     otherNeeds: string = '';
     locationDenied: boolean = false;
     browserName: string;
-    map: any;
-    mapClickListener: any;
-    showMarker: boolean = false;
     private apiUrl = environment.api + '/api/needs';
     isSubmitting: boolean = false;
     needsList = [
-        { id: 'electricity', label: 'Falta de electricidad' },
-        { id: 'water', label: 'Falta de agua potable' },
-        { id: 'food', label: 'Necesidad de alimentos' },
-        { id: 'medicines', label: 'Necesidad de medicamentos' },
-        { id: 'medical_assistance', label: 'Necesidad de asistencia sanitaria' }
+        { id: 'electricity', label: 'Suministro de electricidad' },
+        { id: 'water', label: 'Agua potable' },
+        { id: 'sumwater', label: 'Suministro de agua' },
+        { id: 'food', label: 'Alimentos' },
+        { id: 'alojamiento', label: 'Alojamiento' },
+        { id: 'ropa', label: 'Ropa' },
     ];
 
     constructor(public translate: TranslateService, private zone: NgZone, private http: HttpClient) {
@@ -78,7 +72,6 @@ export class LandPageComponent implements OnInit {
                     this.lng = position.coords.longitude;
                     this.locationDenied = false;
                     console.log('Location obtained:', this.lat, this.lng);
-                    this.showMarker = false;
                 }, 
                 (error) => {
                     console.log('Error de geolocalización:', error);
@@ -116,34 +109,23 @@ export class LandPageComponent implements OnInit {
                 <li>Busca la opción de "Ubicación" o "Location"</li>
                 <li>Selecciona "Permitir" o "Allow"</li>
             </ol>`;
+            //mostrar un link de la politica de privacidad en pagina nueva
+            instructions += `<p class="mb-2 mt-3">Para más información, consulta nuestra <a href="/privacy-policy" target="_blank" class="privacy-link">política de privacidad</a>.</p>`;
     
         Swal.fire({
             icon: 'info',
             title: 'Ayúdanos a coordinar mejor la ayuda',
             html: instructions,
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonText: 'Intentar de nuevo',
-            cancelButtonText: 'Marcar ubicación manualmente',
             confirmButtonColor: '#2196F3',
-            cancelButtonColor: '#757575',
             width: '600px'
         }).then((result) => {
             if (result.isConfirmed) {
                 this.getCurrentLocation();
-            }else{
-                this.showMarker = true;
-                this.centerValencia();
             }
         });
     }
-
- 
-
-    deletelocation(){
-        this.lat = null
-        this.lng = null
-        this.showMarker = false;
-      }
 
       submitNeed(needRequest: NeedRequest): Observable<any> {
         return this.http.post(this.apiUrl, needRequest);
@@ -221,31 +203,4 @@ export class LandPageComponent implements OnInit {
             this.isSubmitting = false;
         }
     }
-
-    centerValencia() {
-        this.lat = 39.4699;
-        this.lng = -0.3763;
-        this.zoom = 7;
-        this.showMarker = true;
-    }
-
-    
-    changePickupMarkerLocation($event: { coords: any }) {
-        this.lat = $event.coords.lat;
-        this.lng = $event.coords.lng;
-        this.showMarker = true;
-      }
-    
-      mapReadyHandler(map: google.maps.Map): void {
-        this.map = map;
-        this.mapClickListener = this.map.addListener('click', (e: google.maps.MouseEvent) => {
-          this.zone.run(() => {
-            // Here we can get correct event
-            this.lat = e.latLng.lat();
-            this.lng = e.latLng.lng();
-            this.showMarker = true;
-          });
-        });
-      }
-
 }

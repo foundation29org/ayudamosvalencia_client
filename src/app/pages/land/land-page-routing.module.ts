@@ -12,7 +12,7 @@ const routes: Routes = [
         path: '.',
         component: LandPageComponent,
         data: {
-          title: 'Rare Diseases Hub Ukraine'
+          title: 'Ayudamos Valencia'
         },
       }
     ]

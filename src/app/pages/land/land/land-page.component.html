@@ -7,7 +7,6 @@
             <div class="alert alert-custom">
                 <h6 class="mb-2">¿Cómo funciona?</h6>
                 <ol class="text-start mb-0">
-                    <li>Permite el acceso a tu ubicación cuando el navegador lo solicite (o revisa los permisos en la barra de direcciones si lo has denegado)</li>
                     <li>Selecciona tus necesidades básicas</li>
                     <li>Agrega comentarios adicionales si lo deseas</li>
                     <li>Envía tu reporte</li>
@@ -33,11 +32,13 @@
                                     {{need.label}}
                                 </mat-checkbox>
                             </div>
+                            <p class="ml-2 primary">Para asistencia sanitaria, llame al 112</p>
                         </div>
                     </div>
+                    
 
                     <div class="form-group mb-4">
-                        <label for="otherNeeds">Otras necesidades</label>
+                        <label for="otherNeeds">Otras necesidades (no incluya información personal)</label>
                         <textarea class="form-control" 
                                 id="otherNeeds" 
                                 rows="3"
@@ -45,33 +46,6 @@
                                 placeholder="Describe cualquier otra necesidad que tengas...">
                         </textarea>
                     </div>
-
-                    <div class="map-container mb-4" *ngIf="showMarker">
-                        <div class="map-header d-flex justify-content-between align-items-center mb-2">
-                            <p class="mb-0">Marca tu ubicación en el mapa</p>
-                            <button class="btn btn-sm btn-outline-primary" (click)="getCurrentLocation()">
-                                <i class="fa fa-location-arrow"></i> 
-                                Obtener mi ubicación
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary" (click)="centerValencia()">
-                                <i class="fa fa-map-marker"></i> 
-                                Centrar en Valencia
-                            </button>
-                        </div>
-                        
-                        <div class="map-wrapper">
-                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom"  (mapReady)="mapReadyHandler($event)">
-                                <agm-marker *ngIf="showMarker && lat!=0" [latitude]="lat" [longitude]="lng" [title]="'Pickup Location'"></agm-marker>
-                            </agm-map>
-                            <a *ngIf="showMarker && lat!=0" class="mt-2 btn btn-primary" (click)="deletelocation()">{{'war.nosharelocation' | translate }}</a>
-                        </div>
-                        
-                        <small class="text-muted mt-2 d-block">
-                            <i class="fa fa-info-circle"></i> 
-                            Puedes ajustar la ubicación haciendo clic en el mapa o arrastrando el marcador
-                        </small>
-                    </div>
-
                     <div class="text-center">
                         <button class="btn btn-primary btn-lg" 
                                 (click)="submitNeeds()">

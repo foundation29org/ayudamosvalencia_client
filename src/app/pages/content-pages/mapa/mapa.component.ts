@@ -51,7 +51,8 @@ export class MapaPageComponent implements OnInit{
     { id: 'water', label: 'Falta de agua potable' },
     { id: 'food', label: 'Necesidad de alimentos' },
     { id: 'medicines', label: 'Necesidad de medicamentos' },
-    { id: 'medical_assistance', label: 'Necesidad de asistencia sanitaria' }
+    { id: 'medical_assistance', label: 'Necesidad de asistencia sanitaria' },
+    { id: 'other', label: 'Otras necesidades' }
   ];
 
 
@@ -115,14 +116,18 @@ export class MapaPageComponent implements OnInit{
 
   filterNeeds() {
     if (this.selectedNeedType === 'all') {
-      this.filteredNeeds = this.needs;
+        this.filteredNeeds = this.needs;
+    } else if (this.selectedNeedType === 'other') {
+        this.filteredNeeds = this.needs.filter(need => 
+            need.otherNeeds && need.otherNeeds.trim().length > 0
+        );
     } else {
-      this.filteredNeeds = this.needs.filter(need => 
-        need.needs.includes(this.selectedNeedType)
-      );
+        this.filteredNeeds = this.needs.filter(need => 
+            need.needs.includes(this.selectedNeedType)
+        );
     }
     this.updateHeatmap();
-  }
+}
 
   updateHeatmap() {
     if (this.heatmapLayer) {
@@ -171,19 +176,25 @@ export class MapaPageComponent implements OnInit{
 
   getNeedStats() {
     const stats = {
-      total: this.needs.length,
-      byType: {} as {[key: string]: number}
+        total: this.needs.length,
+        byType: {} as {[key: string]: number}
     };
 
     this.needTypes.forEach(type => {
-      if (type.id !== 'all') {
-        stats.byType[type.id] = this.needs.filter(need => 
-          need.needs.includes(type.id)
-        ).length;
-      }
+        if (type.id === 'all') return;
+        
+        if (type.id === 'other') {
+            stats.byType[type.id] = this.needs.filter(need => 
+                need.otherNeeds && need.otherNeeds.trim().length > 0
+            ).length;
+        } else {
+            stats.byType[type.id] = this.needs.filter(need => 
+                need.needs.includes(type.id)
+            ).length;
+        }
     });
 
     return stats;
-  }
+}
 
 }

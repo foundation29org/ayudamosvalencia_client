@@ -173,7 +173,7 @@ export class LandPageComponent implements OnInit {
         // Aquí iría la lógica para enviar los datos al backend
         const needRequest: NeedRequest = {
             needs: this.needs,
-            otherNeeds: this.otherNeeds,
+            otherNeeds: this.otherNeeds.trim(),
             location: {
                 lat: this.lat,
                 lng: this.lng

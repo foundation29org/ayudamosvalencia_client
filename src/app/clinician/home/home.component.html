@@ -1,0 +1,561 @@
+<div class="mt-4 card card-block mx-auto" *ngIf="!loadedRequest" style="max-width: 40rem !important;">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12 center-elements">
+                <div>
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-4 card card-block mx-auto" *ngIf="loadedRequest && !showPanelEdit" style="max-width: 40rem !important;">
+    <div *ngIf="requests.length>0" class="">
+        <div class="col-md-12" *ngIf="indexRequest==-1">
+            <div class="card" *ngIf="tasksLoaded">
+                <div class="card-block p-1">
+                    <div class="p-2">
+                        <h4 class="text-bold-500 mb-0">{{'topnavbar.Notifications' | translate }}</h4>
+                    </div>
+                    <div class="pl-2 pr-2 pb-2" style="line-height: 1.2em;">
+                         <!--One notification-->
+                         <div class="row font-small-3 mb-1" *ngIf="!checks.check1">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'charts.noti1a' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck1(true)">
+                                    <span class="">
+                                        Ok
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div class="row font-small-3 mb-1" *ngIf="!checks.check2">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'charts.noti2a' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck2(true)">
+                                    <span class="">
+                                        Ok
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <!--One notification-->
+                        <div class="row font-small-3 mb-1">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'war.titleNoti1' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/pages/support">
+                                    <span class="">
+                                        {{'war.Write email' | translate }}
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" *ngIf="!tasksLoaded">
+                <div class="card-block p-4 center-elements">
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" *ngIf="indexRequest==-1">
+            <button class="btn btn-dark" (click)="newRequest();">{{'war.Create new' | translate }}</button>
+        </div>
+        <div *ngIf="indexRequest==-1">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th>Id.</th>
+                        <th>{{'generics.Date' | translate }}</th>
+                        <th>{{'generics.Status' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                    *ngFor="let request of requests ; let j = index">
+                        <td>
+                            <span *ngIf="request.salesforceCleanId!=null">{{request.salesforceCleanId}}</span>
+                            <span *ngIf="request.salesforceCleanId==null"><a class="btn btn-outline-dark btn-sm mb-0 mr-1" (click)="getRequestCli();" href="javascript:void(0)"><i class="fa fa-refresh"></i></a></span>
+                        </td>
+                        <td>
+                            <span><strong>{{request.creationDate |date}}</strong></span>
+                        </td>
+                        <td>
+                            <span>
+                                <span *ngIf="request.status == null || request.status == 'new'" class="badge badge-custom">{{'war.status.opt1' | translate }}</span>
+                                <span *ngIf="request.status == 'contacted'" class="badge badge-custom">{{'war.status.opt2' | translate }}</span>
+                                <span *ngIf="request.status == 'pending'" class="badge badge-custom">{{'war.status.opt3' | translate }}</span>
+                                <span *ngIf="request.status == 'ontheway'" class="badge badge-custom">{{'war.status.opt4' | translate }}</span>
+                                <span *ngIf="request.status == 'contactlost'" class="badge badge-custom">{{'war.status.opt5' | translate }}</span>
+                                <span *ngIf="request.status == 'helped'" class="badge badge-custom">{{'war.status.opt6' | translate }}</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-dark btn-sm mb-0 mr-1" (click)="viewRequest(j);" href="javascript:void(0)"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-outline-danger btn-sm mb-0 ml-1" (click)="confirmDeleteRequest(j);" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="indexRequest!=-1">
+            <div *ngFor="let request of requests ; let j = index">
+                <div class="mx-auto" *ngIf="indexRequest==j">
+                    <div class="col-12 p-2">
+                        <a (click)="back()" class="btn btn-primary mb-0" title="{{'generics.Back' | translate }}">
+                            <span class="menu-title">{{'generics.Back' | translate }}</span>
+                        </a>
+                        <span class="float-right">Id. {{request.salesforceCleanId}}</span>
+                    </div>
+                    
+                <div class="card card-block p-1 mt-0">
+                    <div class="p-2">
+                        <h4 class="text-bold-500 mb-0">{{'war.Detailed information' | translate }}
+                            <span class="float-right">
+                                {{request.creationDate |date}}</span>
+                        </h4>
+                    </div>
+                    <div class="p-2">
+                        <div class="card-block">
+                            <div class="row font-small-3 mb-2">
+                                <div class="col-1 pr-0">
+                                    <em class="fas fa-info-circle"></em>
+                                </div>
+                                <div class="col-7 pl-2 pr-0">
+                                    <p class="">{{'war.The status of your profile is' | translate }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <span *ngIf="request.status == null || request.status == 'new'" class="badge badge-custom">{{'war.status.opt1' | translate }}</span>
+                                    <span *ngIf="request.status == 'contacted'" class="badge badge-custom">{{'war.status.opt2' | translate }}</span>
+                                    <span *ngIf="request.status == 'pending'" class="badge badge-custom">{{'war.status.opt3' | translate }}</span>
+                                    <span *ngIf="request.status == 'ontheway'" class="badge badge-custom">{{'war.status.opt4' | translate }}</span>
+                                    <span *ngIf="request.status == 'contactlost'" class="badge badge-custom">{{'war.status.opt5' | translate }}</span>
+                                    <span *ngIf="request.status == 'helped'" class="badge badge-custom">{{'war.status.opt6' | translate }}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="mt-3">
+                                    <p class="mb-1 text-bold-500">{{'physicians.I am a physician who treats patients with' | translate }}</p>
+                                    <input type="text" class="form-control" name="group" id="group"
+                                        placeholder="{{'physicians.Write what kind of patients you treat' | translate }}" ngModel required
+                                        #group="ngModel" [(ngModel)]="request.group">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!group.valid && (group.dirty || group.touched)">{{'generics.required'
+                                        | translate }}</small>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="">
+                                    <p class="mb-1 text-bold-500">{{'war.Referral medical center' | translate }}</p>
+                                    <input type="text" class="form-control mb-3" name="referralCenter" id="referralCenter"
+                                            placeholder="{{'war.titleReferralMedicalCenter' | translate }}" ngModel required
+                                            #referralCenter="ngModel" [(ngModel)]="request.referralCenter">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="">
+                                    <p class="mb-1 text-bold-500">{{'war.Patient date of birth' | translate }}</p>
+                                    <input class="form-control d-none" id="birthDate_" name="birthDate" matInput
+                                        placeholder="{{'personalinfo.Birth Date' | translate }}" readonly
+                                        [matDatepicker]="pickerOnset" (click)="pickerOnset.open()"
+                                        [(ngModel)]="request.birthDate">
+                                    <input readonly class="form-control d-inline" (click)="pickerOnset.open()"
+                                        style="background-color: #fff !important;"
+                                        [placeholder]="(request.birthDate!=null) ? (request.birthDate | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+            
+                                    <mat-datepicker-toggle matSuffix [for]="pickerOnset" class="d-none">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker startView="multi-year"
+                                        (daySelected)="closeDatePickerStart($event, pickerOnset)" touchUi="true"
+                                        #pickerOnset></mat-datepicker>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <p class="mb-1 text-bold-500">{{'physicians.Location' | translate }}</p>
+                                <p *ngIf="request.lat!=''" class="mb-1">{{'war.This is where the patient is currently located' | translate }}</p>
+                                <p *ngIf="request.lat==''" class="mb-1" [innerHTML]="'war.optionalLocation' | translate "></p>
+                                <agm-map *ngIf="request.lat==''" [latitude]="lat" [longitude]="lng" [zoom]="zoom"  (mapReady)="mapReadyHandler2($event, j)">
+                                    <agm-marker *ngIf="request.lat!=''" [latitude]="request.lat" [longitude]="request.lng" [title]="'Pickup Location'"></agm-marker>
+                                </agm-map>
+                                <agm-map *ngIf="request.lat!=''" [latitude]="request.lat" [longitude]="request.lng" [zoom]="zoom"  (mapReady)="mapReadyHandler2($event, j)">
+                                    <agm-marker *ngIf="request.lat!=''" [latitude]="request.lat" [longitude]="request.lng" [title]="'Pickup Location'"></agm-marker>
+                                </agm-map>
+                                <a *ngIf="request.lat!=''" class="mt-2 btn btn-primary" (click)="deletelocation1(j)">{{'war.nosharelocation' | translate }}</a>
+                                <div class="row" *ngIf="request.lat==''">
+                                    <div class="col-md-12" >
+                                        <p class="text-center mt-3">----- {{'land.or' | translate }} -----</p>
+                                        <select class="form-control mt-2" id="countryselectedCode" name="countryselectedCode"
+                                            [(ngModel)]="request.country" #countryselectedCode="ngModel" ngModel>
+                                            <option [ngValue]="null" selected>--{{'personalinfo.Country' | translate }}--</option>
+                                            <option *ngFor="let country of countries; let i=index"
+                                                value="{{country.countryName}}">
+                                                <label *ngIf="lang!='es'"
+                                                    style="color:blue !important">{{country.countryName}}</label>
+                                                <label *ngIf="lang=='es'"
+                                                    style="color:blue !important">{{country.countryNombre}}</label>
+                                            </option>
+                                        </select>
+                                    </div>
+                                  </div>
+                            </div>
+                    </div>
+                    <div class="card-block">
+                        <div class="form-group mb-3 mt-5">
+                            <div class="">
+                                <h2 class="content-header mt-0" style="font-weight: 600;">{{'war.titleneedAssistance' | translate }}</h2>
+                                <p class="mb-0"><span [innerHTML]="'war.titleneeds' | translate "></span></p>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 mt-3">
+                            <div class="">
+                                <p class="mb-1 text-bold-500">{{'war.needAssistance' | translate }}</p>
+                                <textarea [autosize]="true" name="needAssistance" [(ngModel)]="request.needAssistance"
+									placeholder="{{'war.needAssistance' | translate }}" ngModel required #needAssistance="ngModel"
+									class="form-control mb-3"></textarea>
+                            </div>
+                        </div>
+                        <p class="mb-1 text-bold-500">{{'war.The drugs I need' | translate }}</p>
+                        <p class="mb-0"><span [innerHTML]="'war.helpdrug' | translate "></span> <span class="ml-1"><a class="info" (click)="openModal(SampleDrug)">{{'war.helpdrug2' | translate }}</a></span></p>
+                        <div *ngIf="!callingTextAnalytics && request.drugs.length>0" class="table-responsive">
+                            <form class="mt-2">
+                                <label>{{'war.These are the drug currently needed' | translate }}</label>
+                            </form>
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>{{'medication.Drug' | translate }}</th>
+                                        <th>{{'war.Boxes' | translate }}</th>
+                                        <th class="headerDosageStrength">{{'war.Dosage strength' | translate }}</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let drug of request.drugs ; let i = index">
+                                        <td>
+                                            <span><strong>{{drug.name}}</strong></span>
+                                            <span class="d-block" *ngIf="drug.link!=''">
+                                                <a class="info" data-original-title="" title=""
+                                                href="https://www.whocc.no/atc_ddd_index/?code={{drug.link}}" target="_blank">
+                                                <span class="mr-1">whocc</span><em class="fa fa-external-link"></em>
+                                                </a>
+                                                <a class="info d-block" data-original-title="" title=""
+                                                href="https://www.rxreasoner.com/atccodes/{{drug.link}}" target="_blank">
+                                                <span class="mr-1">rxreasoner</span> <em class="fa fa-external-link"></em>
+                                                </a>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <span *ngIf="drug.dose!=''">{{drug.dose}}</span>
+                                                <span *ngIf="drug.dose==''">-</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <span *ngIf="drug.strength!=''">{{drug.strength}}</span>
+                                                <span *ngIf="drug.strength==''">-</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-outline-dark btn-sm mb-0 col-sm-6 mr-1 ml-1 mb-1" (click)="editDrug(i, InfoDrug, false, j);" href="javascript:void(0)"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-outline-danger btn-sm mb-0 col-sm-6 mr-1 ml-1" (click)="confirmDeleteDrug(i, false, j);" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <div class="">
+                            <button class="btn btn-info mt-1" (click)="addDrug(InfoDrug, false, j)">{{'war.Add drug' | translate }}</button>
+                        </div>
+
+                                 
+                        <div class="center-elements mt-3">
+                            <button *ngIf="!saving" class="mt-2 btn btn-primary mr-1" (click)="confirmDeleteRequest(j);" href="javascript:void(0)">{{'generics.Delete' | translate}}</button>
+                            <button *ngIf="!saving" class="mt-2 btn btn-dark ml-1" (click)="updateRequest(request,requestIndex);">{{'generics.Save changes' | translate
+                                }}</button>
+                                <button *ngIf="saving" class="mt-2 btn btn-dark ml-1" [disabled]="saving" (click)="updateRequest(request,requestIndex);">{{'generics.Please wait' | translate
+                                }} <i class="fa fa-spinner fa-spin fa-fw"></i></button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>
+<div class="mt-4 card card-block mx-auto" *ngIf="loadedRequest && showPanelEdit"
+    style="max-width: 40rem !important;">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div *ngIf="!loadedRequest">
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+                <div *ngIf="loadedRequest">
+                    <div class="justify-content-center align-items-center text-left">
+                        <span *ngIf="requests.length>0" class="" style="position: absolute;right: 5px;top: -20px;">
+                            <button type="button" class="close" aria-label="Close" (click)="back()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </span>
+                        <div *ngIf="step=='1'">
+                            <h2 class="content-header mb-3 mt-0" style="font-weight: 600;">{{'homeraito.p1title' | translate }}</h2>
+                            <p class="text-muted">
+                                {{'homeraito.p1' | translate }}
+                            </p>
+                            <!--<p class="text-muted">
+                                {{'homeraito.p1.1' | translate }}
+                            </p>-->                 
+                            <div class="center-elements mt-1">
+                                <button class="btn btn-dark mb-0" style="width: 100px;" (click)="question0();">{{'generics.Next' |
+                                    translate }}</button>
+                            </div>
+                        </div>
+                        <div *ngIf="step=='2'">
+                            <h2 class="content-header mb-3 mt-0" style="font-weight: 600;">{{'generics.Welcome to ucr' | translate }}</h2>
+                            <p class="mb-1 text-bold-500">{{'physicians.I am a physician who treats patients with' | translate }} <span class="red">*</span></p>
+                            <input type="text" class="form-control mb-3" name="group" id="group"
+                                    placeholder="{{'physicians.Write what kind of patients you treat' | translate }}" ngModel required
+                                    #group="ngModel" [(ngModel)]="actualRequest.group">
+                            <div class="form-group mb-3">
+                                <div class="">
+                                    <p class="mb-1 text-bold-500">{{'war.Referral medical center' | translate }}</p>
+                                    <input type="text" class="form-control mb-3" name="referralCenter" id="referralCenter"
+                                            placeholder="{{'war.titleReferralMedicalCenter' | translate }}" ngModel required
+                                            #referralCenter="ngModel" [(ngModel)]="actualRequest.referralCenter">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="">
+                                    <p class="mb-1 text-bold-500">{{'war.When was the patient born' | translate }}</p>
+                                    <input class="form-control d-none" id="birthDate_" name="birthDate" matInput
+                                        placeholder="{{'personalinfo.Birth Date' | translate }}" readonly
+                                        [matDatepicker]="pickerOnset" (click)="pickerOnset.open()"
+                                        [(ngModel)]="actualRequest.birthDate">
+                                    <input readonly class="form-control d-inline" (click)="pickerOnset.open()"
+                                        style="background-color: #fff !important;"
+                                        [placeholder]="(actualRequest.birthDate!=null) ? (actualRequest.birthDate | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+
+                                    <mat-datepicker-toggle matSuffix [for]="pickerOnset" class="d-none">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker startView="multi-year"
+                                        (daySelected)="closeDatePickerStart($event, pickerOnset)" touchUi="true"
+                                        #pickerOnset></mat-datepicker>
+                                </div>
+                            </div>
+                            <div class="center-elements">
+                                <button class="mb-0 btn btn-primary mr-1"
+                                          (click)="step='1'">{{'generics.Previous' | translate }}</button>
+                                <button class="mb-0 btn btn-dark ml-1" [disabled]="actualRequest.group==null || actualRequest.group==''"
+                                    (click)="question1();">{{'generics.Next' | translate }}</button>
+                            </div>
+                        </div>
+                        <div *ngIf="step=='3'">
+                                    <h2 class="content-header mt-0" style="font-weight: 600;">{{'physicians.Location' | translate }}</h2>
+                                    <p class="mb-2">{{'war.location2' | translate }}</p>
+                                    <p *ngIf="actualRequest.lat==''" class="mb-2" [innerHTML]="'war.optionalLocation' | translate "></p>
+                                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom"  (mapReady)="mapReadyHandler($event)">
+                                        <agm-marker *ngIf="actualRequest.lat!=''" [latitude]="actualRequest.lat" [longitude]="actualRequest.lng" [title]="'Pickup Location'"></agm-marker>
+                                    </agm-map>
+                                    <a *ngIf="actualRequest.lat!=''" class="mt-2 btn btn-primary" (click)="deletelocation0()">{{'war.nosharelocation' | translate }}</a>
+                                    <p class="text-center mt-3">----- {{'land.or' | translate }} -----</p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <select class="form-control" id="countryselectedCode" name="countryselectedCode"
+                                                [(ngModel)]="actualRequest.country" #countryselectedCode="ngModel" ngModel>
+                                                <option [ngValue]="null" selected>--{{'personalinfo.Country' | translate }}--</option>
+                                                <option *ngFor="let country of countries; let i=index"
+                                                    value="{{country.countryName}}">
+                                                    <label *ngIf="lang!='es'"
+                                                        style="color:blue !important">{{country.countryName}}</label>
+                                                    <label *ngIf="lang=='es'"
+                                                        style="color:blue !important">{{country.countryNombre}}</label>
+                                                </option>
+                                            </select>
+                                        </div>
+                                      </div>
+                                    <div class="center-elements mt-3">
+                                        <button class="btn btn-primary mr-1 mb-0"
+                                          (click)="step='2'">{{'generics.Previous' | translate }}</button>
+                                        <button class="ml-1 btn btn-dark mb-0"
+                                            (click)="question2();">{{'generics.Next' | translate }}</button>
+                                    </div>
+                        </div>
+                        <div *ngIf="step=='4'" class="text-left">
+                            <div class="form-group mb-3 mt-0">
+                                <div class="">
+                                    <h2 class="content-header mt-0" style="font-weight: 600;">{{'war.titleneedAssistance' | translate }}</h2>
+                                    <p class="mb-0"><span [innerHTML]="'war.titleneeds' | translate "></span></p>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <div class="">
+                                    <p class="mb-1 text-bold-500">{{'war.needAssistance' | translate }}</p>
+                                    <textarea [autosize]="true" name="needAssistance" [(ngModel)]="actualRequest.needAssistance"
+									placeholder="{{'war.needAssistance' | translate }}"
+									class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <p class="text-bold-500 mt-3 mb-1">{{'war.DrugsNeeds' | translate }}</p>
+                            <p class="mb-0"><span [innerHTML]="'war.needsSubtitle' | translate "></span> <span class="ml-1"><a class="info" (click)="openModal(SampleDrug)">{{'war.helpdrug2' | translate }}</a></span></p>
+                            <div *ngIf="!callingTextAnalytics && actualRequest.drugs.length>0" class="table-responsive">
+                                <form class="mt-2">
+                                    <label>{{'war.These are the drug currently needed' | translate }}</label>
+                                </form>
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>{{'medication.Drug' | translate }}</th>
+                                            <th>{{'war.Boxes' | translate }}</th>
+                                            <th class="headerDosageStrength">{{'war.Dosage strength' | translate }}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            *ngFor="let drug of actualRequest.drugs ; let i = index">
+                                            <td>
+                                                <span><strong>{{drug.name}}</strong></span>
+                                                <span class="d-block" *ngIf="drug.link!=''">
+                                                    <a class="info" data-original-title="" title=""
+                                                    href="https://www.whocc.no/atc_ddd_index/?code={{drug.link}}" target="_blank">
+                                                    <span class="mr-1">whocc</span><em class="fa fa-external-link"></em>
+                                                    </a>
+                                                    <a class="info d-block" data-original-title="" title=""
+                                                    href="https://www.rxreasoner.com/atccodes/{{drug.link}}" target="_blank">
+                                                    <span class="mr-1">rxreasoner</span> <em class="fa fa-external-link"></em>
+                                                    </a>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <span *ngIf="drug.dose!=''">{{drug.dose}}</span>
+                                                    <span *ngIf="drug.dose==''">-</span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <span *ngIf="drug.strength!=''">{{drug.strength}}</span>
+                                                    <span *ngIf="drug.strength==''">-</span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-outline-dark btn-sm mb-0 col-sm-6 mr-1 ml-1 mb-1" (click)="editDrug(i, InfoDrug, true, '');" href="javascript:void(0)"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-outline-danger btn-sm mb-0 col-sm-6 mr-1 ml-1" (click)="confirmDeleteDrug(i, true, '');" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <div class="">
+                                <button class="btn btn-info mt-1" (click)="addDrug(InfoDrug, true, '')">{{'war.Add drug' | translate }}</button>
+                            </div>   
+                            <div class="center-elements mt-3">
+                                <span class="danger d-block mb-2" *ngIf="!saving && actualRequest.drugs.length==0 && actualRequest.needAssistance == ''">{{'war.mandatoryfields' | translate }}</span>
+                                <button *ngIf="!saving" class="btn btn-primary mr-1 mb-0"
+                                    (click)="step='3'">{{'generics.Previous' | translate }}</button>
+                                <button *ngIf="saving" [disabled]="saving" class="btn btn-dark ml-1 mb-0" (click)="setRequest();">{{'generics.Please wait' | translate}} <i class="fa fa-spinner fa-spin fa-fw"></i></button>
+                                <button *ngIf="!saving" [disabled]="actualRequest.drugs.length==0 && actualRequest.needAssistance == ''" class="btn btn-dark ml-1 mb-0" (click)="setRequest();">{{'generics.Finish' | translate
+                                    }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #InfoDrug let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h4 class="modal-title" *ngIf="editingDrugIndex>-1">{{'war.Edit drug' | translate }}</h4>
+        <h4 class="modal-title" *ngIf="editingDrugIndex==-1">{{'war.Add drug' | translate }}</h4>
+		<button *ngIf="!callingTextAnalytics" type="button" class="close" aria-label="Close" (click)="closePanel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="px-3">
+            <p class="modal-subtitle"><span [innerHTML]="'war.needsSubtitle' | translate "></span> <span class="ml-1"><a class="info" (click)="openModal(SampleDrug)">{{'war.helpdrug2' | translate }}</a></span></p>
+			<div class="form-body">
+				<div class="row">
+					<div class="col-sm-12">
+                        <label class="mb-0">{{'war.Generic name' | translate }}</label>
+                        <input type="text" class="form-control" name="name" id="name"
+                                    placeholder="{{'generics.Name' | translate }}" ngModel required
+                                    #name="ngModel" [(ngModel)]="newDrug.name">
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-6 mt-2">
+                        <label class="mb-0">{{'war.Boxes' | translate }}</label>
+                        <input type="number" min="0" class="form-control" name="dose" id="dose"
+                                    placeholder="{{'war.Number of boxes' | translate }}" ngModel required
+                                    #dose="ngModel" [(ngModel)]="newDrug.dose">
+                    </div>
+                    <div class="col-sm-6 mt-2">
+                        <label class="mb-0">{{'war.Dosage strength' | translate }}</label>
+                        <input type="text" class="form-control" name="strength" id="strength"
+                                    placeholder="{{'war.Dosage strength' | translate }}" ngModel required
+                                    #strength="ngModel" [(ngModel)]="newDrug.strength">
+                    </div>
+
+                    <div class="col-md-12 mt-2 center-elements">
+                        <button class="mt-2 btn btn-dark mb-0" *ngIf="!callingTextAnalytics" [disabled]="((newDrug.name=='') || (newDrug.dose==''))" (click)="saveNewDrug()" href="javascript:void(0)">{{'generics.Save' | translate }}</button>
+                        <button class="mt-2 btn btn-dark mb-0" *ngIf="callingTextAnalytics" [disabled]="callingTextAnalytics" (click)="saveNewDrug()" href="javascript:void(0)">{{'generics.Please wait' | translate }} <i class="fa fa-spinner fa-spin fa-fw"></i></button>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #SampleDrug let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<button type="button" class="close" aria-label="Close" (click)="closePanel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="px-3">
+
+			<div class="form-body">
+				<div class="row">
+					<h4>{{'sampleDrug.id1' | translate }}</h4>
+                    <p>{{'sampleDrug.id2' | translate }}</p>
+                    <h4>{{'sampleDrug.id3' | translate }}</h4>
+                    <p>{{'sampleDrug.id4' | translate }}</p>
+					<img class="logo-img mt-1" style="width: 100%" src='assets/img/elements/drugsample.png' />
+                    <p class="text-muted font-small-1">{{'sampleDrug.id5' | translate }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+
+

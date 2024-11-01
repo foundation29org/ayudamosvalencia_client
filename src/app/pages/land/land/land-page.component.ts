@@ -112,9 +112,9 @@ export class LandPageComponent implements OnInit {
             </ul>
             <p class="mb-2">Para activar la ubicación:</p>
             <ol class="text-left mb-2">
-                <li>Haz clic en el icono del candado en la barra de direcciones</li>
-                <li>Busca "Ubicación" en los permisos</li>
-                <li>Selecciona "Permitir"</li>
+                <li>Haz clic en el icono de permisos en la barra de direcciones</li>
+                <li>Busca la opción de "Ubicación" o "Location"</li>
+                <li>Selecciona "Permitir" o "Allow"</li>
             </ol>`;
     
         Swal.fire({

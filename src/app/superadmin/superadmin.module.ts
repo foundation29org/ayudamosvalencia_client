@@ -20,6 +20,9 @@ import { SupportComponent } from './support/support.component';
 import {AutosizeModule} from 'ngx-autosize';
 import { SafePipe2 } from '../shared/services/safe2.pipe';
 import { MapaPageComponent } from './mapa/mapa.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -38,7 +41,9 @@ import { MapaPageComponent } from './mapa/mapa.component';
             language: sessionStorage && sessionStorage.getItem('lang') || 'en'
           }),
         NgxDatatableModule,
-        AutosizeModule
+        AutosizeModule,
+        MatCardModule,
+        MatRadioModule
     ],
     exports: [TranslateModule],
     declarations: [

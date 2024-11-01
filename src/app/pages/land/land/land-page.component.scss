@@ -12,6 +12,12 @@
   }
 }
 
+.alert-custom {
+  border-color: #434344 !important;
+  background-color: #e6e6e6 !important;
+  color: #3c3c3c !important;
+}
+
 // Ajusta el espacio entre los checkboxes
 ::ng-deep .mat-checkbox-layout {
   white-space: normal !important;

@@ -26,7 +26,7 @@ export class LandPageComponent implements OnInit {
     lng: number = -0.3763;
     needs: string[] = [];
     otherNeeds: string = '';
-    locationDenied: boolean = false;
+    locationDenied: boolean = true;
     browserName: string;
     private apiUrl = environment.api + '/api/needs';
     isSubmitting: boolean = false;
@@ -141,8 +141,14 @@ export class LandPageComponent implements OnInit {
     }
 
       async submitNeeds() {
-        console.log(this.needs);
-        console.log(this.otherNeeds);
+        if(this.locationDenied){
+            Swal.fire({
+                icon: 'warning',
+                text: 'Por favor, activa la ubicación para enviar tu solicitud',
+                confirmButtonText: 'Entendido'
+            });
+            return;
+        }
         if (this.needs.length === 0 && !this.otherNeeds) {
             Swal.fire({
                 icon: 'warning',

@@ -192,7 +192,7 @@ export class LandPageComponent implements OnInit {
             Swal.fire({
                 icon: 'success',
                 title: 'Solicitud enviada',
-                text: 'Tu solicitud ha sido registrada correctamente. Las autoridades y organizaciones de ayuda han sido notificadas.',
+                text: 'Tu solicitud ha sido registrada correctamente. Las autoridades y organizaciones de ayuda tendrán esta información a su disposición. El tiempo de respuesta dependerá de los procesos de triaje y priorización de estas.',
                 confirmButtonText: 'Aceptar'
             });
 

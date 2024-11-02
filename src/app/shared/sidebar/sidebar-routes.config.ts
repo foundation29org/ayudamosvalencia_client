@@ -31,5 +31,9 @@ export const ROUTESADMINGTP: RouteInfo[] = [
 
 //Sidebar menu Routes and data
 export const ROUTESHOMEDX: RouteInfo[] = [
-    { path: '/.', title: 'Home', icon: 'icon-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
+    { path: '/.', title: 'Inicio', icon: 'icon-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
+    { path: '/about', title: '¿Qué es AyudamosValencia?', icon: 'icon-info', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    { path: '/foundation', title: '¿Quién es Fundación 29?', icon: 'fa fa-institution', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    { path: '/privacy-security', title: 'Privacidad y seguridad', icon: 'icon-shield', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    { path: '/support', title: 'Soporte técnico y contacto', icon: 'icon-support', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 ];

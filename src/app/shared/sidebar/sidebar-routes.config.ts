@@ -36,4 +36,5 @@ export const ROUTESHOMEDX: RouteInfo[] = [
     { path: '/foundation', title: '¿Quién es Fundación 29?', icon: 'fa fa-institution', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/privacy-security', title: 'Privacidad y seguridad', icon: 'icon-shield', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/support', title: 'Soporte técnico y contacto', icon: 'icon-support', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    { path: '/privacy-policy', title: 'Política de privacidad', icon: 'icon-shield', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 ];

@@ -85,7 +85,8 @@ export class LandPageComponent implements OnInit {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error de ubicación',
-                            text: 'No se pudo obtener tu ubicación. Por favor, marca tu ubicación en el mapa manualmente.',
+                            html: 'No se pudo obtener tu ubicación. <br><br>' +
+                                 'Si ya has dado permiso de ubicación, por favor intenta <strong>recargar la página</strong>. ',
                             confirmButtonText: 'Entendido'
                         });
                     }

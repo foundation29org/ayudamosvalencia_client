@@ -114,7 +114,9 @@ export class LandPageComponent implements OnInit {
                 <li>Haz clic en el icono de permisos en la barra de direcciones</li>
                 <li>Busca la opción de "Ubicación" o "Location"</li>
                 <li>Selecciona "Permitir" o "Allow"</li>
-            </ol>`;
+            </ol>
+            <p class="mt-3">Si el problema persiste, te recomendamos probar con Google Chrome, o Microsoft Edge, ya que suele tener mejor compatibilidad con la geolocalización.</p>
+            `;
             //mostrar un link de la politica de privacidad en pagina nueva
             instructions += `<p class="mb-2 mt-3">Para más información, consulta nuestra <a href="/privacy-policy" target="_blank" class="privacy-link">política de privacidad</a>.</p>`;
     

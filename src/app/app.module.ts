@@ -81,7 +81,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       }),
       AgmCoreModule.forRoot({
         apiKey: environment.googlemapkey,
-        language: sessionStorage && sessionStorage.getItem('lang') || 'en'
+        language: sessionStorage && sessionStorage.getItem('lang') || 'es'
       }),
       Angulartics2Module.forRoot(),
       PerfectScrollbarModule,

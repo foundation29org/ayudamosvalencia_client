@@ -38,7 +38,7 @@ import { MatRadioModule } from '@angular/material/radio';
         UiSwitchModule,
         AgmCoreModule.forRoot({
             apiKey: "AIzaSyAcbDF_C9btRGAUWSePhOR4UxsVbtK3cJA",
-            language: sessionStorage && sessionStorage.getItem('lang') || 'en'
+            language: sessionStorage && sessionStorage.getItem('lang') || 'es'
           }),
         NgxDatatableModule,
         AutosizeModule,

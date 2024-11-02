@@ -38,6 +38,7 @@ export class LandPageComponent implements OnInit {
         { id: 'alojamiento', label: 'Alojamiento' },
         { id: 'ropa', label: 'Ropa' },
     ];
+    zoom: number = 7;
 
     private locationInstructionsShown: number = 0;
 
@@ -142,9 +143,19 @@ export class LandPageComponent implements OnInit {
                 this.getCurrentLocation();
             }else{
                 this.showMarker = true;
+                this.locationDenied = false;
+                this.centerValencia();
             }
         });
     }
+
+    centerValencia() {
+        this.lat = 39.4699;
+        this.lng = -0.3763;
+        this.zoom = 7;
+        this.showMarker = true;
+    }
+
 
     mapReadyHandler(map: google.maps.Map): void {
         this.map = map;
@@ -156,12 +167,6 @@ export class LandPageComponent implements OnInit {
             this.showMarker = true;
           });
         });
-      }
-
-      deletelocation(){
-        this.lat = null
-        this.lng = null
-        this.showMarker = false;
       }
 
 

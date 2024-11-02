@@ -39,6 +39,12 @@ export class LandPageComponent implements OnInit {
         { id: 'ropa', label: 'Ropa' },
     ];
 
+    private locationInstructionsShown: number = 0;
+
+    showMarker: boolean = false;
+    map: any;
+    mapClickListener: any;
+
     constructor(public translate: TranslateService, private zone: NgZone, private http: HttpClient) {
         this.lang = sessionStorage.getItem('lang') || 'es';
         this.detectBrowser();
@@ -74,6 +80,7 @@ export class LandPageComponent implements OnInit {
                     this.lng = position.coords.longitude;
                     this.locationDenied = false;
                     console.log('Location obtained:', this.lat, this.lng);
+                    this.showMarker = false;
                 }, 
                 (error) => {
                     console.log('Error de geolocalización:', error);
@@ -124,16 +131,39 @@ export class LandPageComponent implements OnInit {
             icon: 'info',
             title: 'Ayúdanos a coordinar mejor la ayuda',
             html: instructions,
-            showCancelButton: false,
+            showCancelButton: this.locationInstructionsShown > 0,
             confirmButtonText: 'Intentar de nuevo',
+            cancelButtonText: 'Marcar ubicación manualmente',
             confirmButtonColor: '#2196F3',
             width: '600px'
         }).then((result) => {
             if (result.isConfirmed) {
+                this.locationInstructionsShown++;
                 this.getCurrentLocation();
+            }else{
+                this.showMarker = true;
             }
         });
     }
+
+    mapReadyHandler(map: google.maps.Map): void {
+        this.map = map;
+        this.mapClickListener = this.map.addListener('click', (e: google.maps.MouseEvent) => {
+          this.zone.run(() => {
+            // Here we can get correct event
+            this.lat = e.latLng.lat();
+            this.lng = e.latLng.lng();
+            this.showMarker = true;
+          });
+        });
+      }
+
+      deletelocation(){
+        this.lat = null
+        this.lng = null
+        this.showMarker = false;
+      }
+
 
       submitNeed(needRequest: NeedRequest): Observable<any> {
         return this.http.post(this.apiUrl, needRequest);
@@ -240,4 +270,6 @@ export class LandPageComponent implements OnInit {
             this.isSubmitting = false;
         }
     }
+
+
 }

@@ -65,7 +65,9 @@ export class LandPageComponent implements OnInit {
     }
 
     getCurrentLocation() {
+        console.log(navigator.geolocation)
         if (navigator.geolocation) {
+            console.log('Obteniendo ubicación...');
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.lat = position.coords.latitude;
@@ -145,12 +147,28 @@ export class LandPageComponent implements OnInit {
     }
 
       async submitNeeds() {
+        console.log(this.locationDenied);
         if(this.locationDenied){
-            Swal.fire({
+            await new Promise<void>((resolve) => {
+                this.getCurrentLocation();
+                // Esperamos un poco para dar tiempo a que se actualice la ubicación
+                setTimeout(() => resolve(), 1000);
+            });
+            if(this.locationDenied) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Obteniendo ubicación',
+                    text: 'Estamos obteniendo tu ubicación. Por favor, espera unos segundos y vuelve a intentarlo.',
+                    confirmButtonText: 'Entendido'
+                });
+                return;
+            }
+            //this.getCurrentLocation();
+            /*Swal.fire({
                 icon: 'warning',
                 text: 'Por favor, activa la ubicación para enviar tu solicitud',
                 confirmButtonText: 'Entendido'
-            });
+            });*/
             return;
         }
         if (this.needs.length === 0 && !this.otherNeeds) {

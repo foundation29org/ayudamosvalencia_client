@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from "ng-apexcharts";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AgmCoreModule } from '@agm/core';
 
 
 import { LandPageComponent } from "./land/land-page.component";
@@ -43,7 +44,11 @@ import { CookiesPageComponent } from "./cookies/cookies.component";
         MatRadioModule,
         NgApexchartsModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        AgmCoreModule.forRoot({
+            apiKey: "AIzaSyAcbDF_C9btRGAUWSePhOR4UxsVbtK3cJA",
+            language: sessionStorage && sessionStorage.getItem('lang') || 'es'
+          }),
     ],
     declarations: [
         LandPageComponent,

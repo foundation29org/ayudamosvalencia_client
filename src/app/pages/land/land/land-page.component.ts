@@ -158,9 +158,16 @@ export class LandPageComponent implements OnInit {
                 Swal.fire({
                     icon: 'info',
                     title: 'Obteniendo ubicación',
-                    text: 'Estamos obteniendo tu ubicación. Puede tardar hasta 30 segundos. Por favor, espera unos segundos y vuelve a intentarlo.',
+                    html: 'Estamos obteniendo tu ubicación. Puede tardar hasta 30 segundos. Por favor, espera unos segundos y vuelve a intentarlo.' +
+                         '<br><br>Si el problema persiste, te recomendamos probar con Google Chrome, ya que suele tener mejor compatibilidad con la geolocalización.',
                     confirmButtonText: 'Entendido'
                 });
+                /*Swal.fire({
+                    icon: 'info',
+                    title: 'Obteniendo ubicación',
+                    text: 'Estamos obteniendo tu ubicación. Puede tardar hasta 30 segundos. Por favor, espera unos segundos y vuelve a intentarlo.',
+                    confirmButtonText: 'Entendido'
+                });*/
                 return;
             }
             //this.getCurrentLocation();

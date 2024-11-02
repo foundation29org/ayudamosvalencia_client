@@ -11,7 +11,7 @@ import { NewPasswordPageComponent } from "./new-password/new-password-page.compo
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
 import { TermsConditionsPageComponent } from "./terms-conditions/terms-conditions-page.component";
-import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
+
 import {PasswordValidator} from "app/shared/directives/password-validator.directive"; //imported to modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -46,7 +46,6 @@ import { MatRadioModule } from '@angular/material/radio';
         RegisterPageComponent,
         NewPasswordPageComponent,
         TermsConditionsPageComponent,
-        PrivacyPolicyPageComponent,
         PasswordValidator,
         MyFilterPipe
     ],

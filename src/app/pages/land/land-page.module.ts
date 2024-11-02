@@ -10,11 +10,18 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 
 import { LandPageComponent } from "./land/land-page.component";
+import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
+import { AboutPageComponent } from "./about/about.component";
+import { FoundationPageComponent } from "./foundation/foundation.component";
+import { PrivacySecurityPageComponent } from "./privacy-security/privacy-security.component";
+import { SupportPageComponent } from "./support/support.component";
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import { CookiesPageComponent } from "./cookies/cookies.component";
 
 
 @NgModule({
@@ -39,7 +46,13 @@ import {MatRadioModule} from '@angular/material/radio';
         MatNativeDateModule
     ],
     declarations: [
-        LandPageComponent
+        LandPageComponent,
+        PrivacyPolicyPageComponent,
+        AboutPageComponent,
+        FoundationPageComponent,
+        PrivacySecurityPageComponent,
+        SupportPageComponent,
+        CookiesPageComponent
     ]
 })
 export class LandPageModule { }

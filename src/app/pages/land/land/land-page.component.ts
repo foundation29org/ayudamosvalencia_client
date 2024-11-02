@@ -96,15 +96,18 @@ export class LandPageComponent implements OnInit {
 
     showLocationInstructions() {
         let instructions = `
-            <p class="mb-2">Tu ubicación nos ayuda a:</p>
-            <ul class="text-left mb-4">
+            <p class="mb-3">Esta aplicación en pruebas permite comunicar tus necesidades básicas a las autoridades que coordinan las labores de rescate. Tienes que estar físicamente en el sitio donde comunicas el problema, esto es así para evitar un uso no indebido de la aplicación.</p>
+            
+            <p class="mb-2">Tu ubicación ayuda a las autoridades a:</p>
+            <ul class="text-left mb-4 custom-bullet-list">
                 <li>Crear un mapa de necesidades en tiempo real</li>
                 <li>Coordinar la ayuda de manera más eficiente</li>
                 <li>Priorizar las zonas más afectadas</li>
                 <li>Distribuir los recursos disponibles donde más se necesitan</li>
             </ul>
+            
             <p class="mb-2">Para activar la ubicación:</p>
-            <ol class="text-left mb-2">
+            <ol class="text-left mb-2 custom-number-list">
                 <li>Haz clic en el icono de permisos en la barra de direcciones</li>
                 <li>Busca la opción de "Ubicación" o "Location"</li>
                 <li>Selecciona "Permitir" o "Allow"</li>

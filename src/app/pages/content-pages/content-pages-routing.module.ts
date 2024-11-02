@@ -6,7 +6,6 @@ import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-p
 import { NewPasswordPageComponent } from "./new-password/new-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
-import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
 
 const routes: Routes = [
   {
@@ -45,13 +44,6 @@ const routes: Routes = [
         component: RegisterPageComponent,
         data: {
           title: 'menu.Register'
-        }
-      },
-      {
-        path: 'privacy-policy',
-        component: PrivacyPolicyPageComponent,
-        data: {
-          title: 'registration.Privacy Policy'
         }
       }
     ]

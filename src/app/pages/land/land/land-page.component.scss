@@ -36,6 +36,42 @@
   box-shadow: 0 0 0 3px rgba(240, 103, 103, 0.5);
 }
 
+.custom-bullet-list {
+  list-style: none;
+  padding-left: 1.5rem;
+  
+  li {
+      position: relative;
+      margin-bottom: 0.5rem;
+      
+      &:before {
+          content: "·";
+          position: absolute;
+          left: -1rem;
+          font-size: 1.5em;
+          line-height: 1;
+      }
+  }
+}
+
+// Estilo para los números
+.custom-number-list {
+  list-style: none;
+  padding-left: 1.5rem;
+  counter-reset: item;
+  
+  li {
+      position: relative;
+      margin-bottom: 0.5rem;
+      
+      &:before {
+          content: counter(item) ".";
+          counter-increment: item;
+          position: absolute;
+          left: -1.5rem;
+      }
+  }
+}
 
 .map-container {
   

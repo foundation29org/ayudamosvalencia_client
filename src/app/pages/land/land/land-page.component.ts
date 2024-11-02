@@ -158,7 +158,7 @@ export class LandPageComponent implements OnInit {
                 Swal.fire({
                     icon: 'info',
                     title: 'Obteniendo ubicación',
-                    text: 'Estamos obteniendo tu ubicación. Por favor, espera unos segundos y vuelve a intentarlo.',
+                    text: 'Estamos obteniendo tu ubicación. Puede tardar hasta 30 segundos. Por favor, espera unos segundos y vuelve a intentarlo.',
                     confirmButtonText: 'Entendido'
                 });
                 return;

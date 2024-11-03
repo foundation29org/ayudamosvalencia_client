@@ -43,11 +43,6 @@ import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
 import { environment } from 'environments/environment';
 
-import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { NgxHotjarModule } from 'ngx-hotjar';
-import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
-
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -80,9 +75,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         apiKey: environment.googlemapkey,
         language: sessionStorage && sessionStorage.getItem('lang') || 'es'
       }),
-      Angulartics2Module.forRoot(),
-      PerfectScrollbarModule,
-      NgxHotjarModule.forRoot(environment.hotjarSiteId)
+      PerfectScrollbarModule
     ],
     providers: [
       AuthService,
@@ -110,8 +103,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         provide: PERFECT_SCROLLBAR_CONFIG,
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
       },
-      { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-      GoogleAnalyticsService
+      { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
     ],
     bootstrap: [AppComponent]
   })

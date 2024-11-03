@@ -1,17 +1,9 @@
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'app/shared/auth/auth.service';
-import { SortService } from 'app/shared/services/sort.service';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { PatientService } from 'app/shared/services/patient.service';
-import { Data } from 'app/shared/services/data.service';
-import Swal from 'sweetalert2';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
-import { SearchService } from 'app/shared/services/search.service';
+import { Router, NavigationEnd } from '@angular/router';
+import {  NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 
 import { LayoutService } from '../services/layout.service';
@@ -29,8 +21,7 @@ declare global {
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"],
-  providers: [PatientService, ApiDx29ServerService]
+  styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleClass = "ft-maximize";
@@ -70,7 +61,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   age: any = {};
   private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private authService: AuthService, private router: Router) {
     if (this.isApp) {
       if (device.platform == 'android' || device.platform == 'Android') {
         this.isAndroid = true;
@@ -115,9 +106,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.config = this.configService.templateConf;
-    if(this.role=='User'){
-      this.loadPatientId();
-    }
   }
 
   ngAfterViewInit() {
@@ -166,18 +154,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   exit() {
     navigator.app.exitApp();
-  }
-
-
-  loadPatientId() {
-    this.subscription.add(this.patientService.getPatientId()
-      .subscribe((res: any) => {
-        console.log(res);
-        //this.authService.setCurrentPatient(res);
-        //.sub
-      }, (err) => {
-        console.log(err);
-      }));
   }
 
 }

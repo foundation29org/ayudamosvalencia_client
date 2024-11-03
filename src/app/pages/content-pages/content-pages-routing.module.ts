@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ErrorPageComponent } from "./error/error-page.component";
-import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
-import { NewPasswordPageComponent } from "./new-password/new-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
 
@@ -16,20 +14,6 @@ const routes: Routes = [
         component: ErrorPageComponent,
         data: {
           title: 'Error Page'
-        }
-      },
-      {
-        path: 'forgotpassword',
-        component: ForgotPasswordPageComponent,
-        data: {
-          title: 'menu.Forgot Password'
-        }
-      },
-      {
-        path: 'newpassword',
-        component: NewPasswordPageComponent,
-        data: {
-          title: 'menu.New Password'
         }
       },
       {

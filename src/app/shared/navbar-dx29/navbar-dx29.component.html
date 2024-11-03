@@ -16,21 +16,27 @@
       </div>
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                <ul class="navbar-nav ml-auto d-flex align-items-center">
+                    <li class="nav-item mr-3 d-none d-lg-block">
                         <a href="https://foundation29.org" target="_blank" rel="noopener noreferrer">
                             <img src="https://foundation29.org/assets/img/logo-f29.webp" 
                                  style="height: 48px;"
                                  alt="Foundation 29 Logo" 
                                  class="f29-logo">
-                          </a>
+                        </a>
                     </li>
-                  </ul>
+                    <li class="nav-item">
+                        <a class="btn btn-primary mt-1" routerLink="/login">
+                            Soy una institución
+                        </a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav m-r-0">
+                    
                     <!-- show button to pagina principal -->
-                     <!--<li class="nav-item mr-2">
-                        <a class="btn btn-info round mb-0 btn-navbar" routerLink="/mapa">Mapa</a>
-                    </li>-->
+ <!--<li class="nav-item mr-2">
+                        <a class="btn btn-info round mb-0 btn-navbar" (click)="goToLogin()">{{'login.Login' | translate }}</a>
+                      </li>-->
                      
                     
                     <!--<li class="nav-item mr-2">

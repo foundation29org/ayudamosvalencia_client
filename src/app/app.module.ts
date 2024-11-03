@@ -42,9 +42,6 @@ import { EventsService } from 'app/shared/services/events.service';
 import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
 import { environment } from 'environments/environment';
-import { BlobStorageService } from 'app/shared/services/blob-storage.service';
-import { BlobStoragePedService } from 'app/shared/services/blob-storage-ped.service';
-import { BlobStorageSupportService } from 'app/shared/services/blob-storage-support.service';
 
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
@@ -109,9 +106,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       EventsService,
       DialogService,
       Data,
-      BlobStorageService,
-      BlobStoragePedService,
-      BlobStorageSupportService,
       {
         provide: PERFECT_SCROLLBAR_CONFIG,
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

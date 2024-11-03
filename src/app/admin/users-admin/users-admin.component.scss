@@ -10,9 +10,17 @@
   z-index: 9999 !important;
 }
 
+::ng-deep .swal2-modal .swal2-confirm{
+  background-color: #bf1922 !important;
+}
+
+::ng-deep .swal2-styled.swal2-confirm:focus{
+  box-shadow: 0 0 0 3px rgba(240, 103, 103, 0.5);
+}
+
 
 agm-map {
-  height: 300px;
+  height: 400px;
 }
 
 ::ng-deep .gm-style-iw-d{
@@ -20,3 +28,27 @@ agm-map {
   min-width: 100px !important;
 }
 
+.selected-row {
+  background-color: #fdc4c4 !important;
+}
+
+.flash-highlight {
+  animation: flash 1s ease;
+}
+
+@keyframes flash {
+  0% {
+      background-color: #e6f3ff;
+  }
+  50% {
+      background-color: #b3d7ff;
+  }
+  100% {
+      background-color: #e6f3ff;
+  }
+}
+
+/* Asegurarse de que los estilos se aplican incluso con el hover */
+.datatable-row-wrapper:hover .selected-row {
+  background-color: #e6f3ff !important;
+}

@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
@@ -7,23 +7,21 @@ import { AuthService } from 'app/shared/auth/auth.service';
 import { DateService } from 'app/shared/services/date.service';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { ToastrService } from 'ngx-toastr';
-import swal from 'sweetalert2';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import {DateAdapter} from '@angular/material/core';
-import { SortService} from 'app/shared/services/sort.service';
 import { json2csv } from 'json-2-csv';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-users-admin',
     templateUrl: './users-admin.component.html',
-    styleUrls: ['./users-admin.component.scss'],
-    providers: [ApiDx29ServerService]
+    styleUrls: ['./users-admin.component.scss']
 })
 
 export class UsersAdminComponent implements OnDestroy{
-  @ViewChild('f') newLangForm: NgForm;
+  @ViewChild('myTable') table: DatatableComponent;
+  selectedRow: any = null;
 
   addedlang: boolean = false;
   lang: any;
@@ -37,19 +35,24 @@ export class UsersAdminComponent implements OnDestroy{
   modalReference: NgbModalRef;
   private subscription: Subscription = new Subscription();
   timeformat="";
-  currentGroup: any;
-  countries: any;
   groupId: any;
   groupEmail: any;
-  // Google map lat-long
-  lat: number = 50.431134;
-  lng: number = 30.654701;
-  zoom = 3;
+  lat: number = 39.4699;
+  lng: number = -0.3763;
+  zoom = 7;
   rowIndex: number = -1;
   emailMsg="";
   msgList: any = {};
+  needsList = [
+    { id: 'electricity', label: 'Suministro de electricidad' },
+    { id: 'water', label: 'Agua potable' },
+    { id: 'sumwater', label: 'Suministro de agua' },
+    { id: 'food', label: 'Alimentos' },
+    { id: 'alojamiento', label: 'Alojamiento' },
+    { id: 'ropa', label: 'Ropa' },
+];
 
-  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private authGuard: AuthGuard, public toastr: ToastrService, private modalService: NgbModal, private dateService: DateService,private adapter: DateAdapter<any>, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService){
+  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private authGuard: AuthGuard, public toastr: ToastrService, private modalService: NgbModal, private dateService: DateService,private adapter: DateAdapter<any>){
 
     this.adapter.setLocale(this.authService.getLang());
     this.lang = this.authService.getLang()
@@ -67,51 +70,38 @@ export class UsersAdminComponent implements OnDestroy{
           this.timeformat="M/d/yy";
           break;
 
-    }
-    this.currentGroup = this.authService.getGroup()    
-    this.loadGroupId();
-  }
-
-  loadCountries(){
-    this.subscription.add( this.http.get('assets/jsons/countries.json')
-    .subscribe( (res : any) => {
-      this.countries=res;
-      this.getUsers();
-    }, (err) => {
-      console.log(err);
-      this.getUsers();
-    }));
+    }  
+    this.getRequests();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  loadGroupId(){
-    this.subscription.add( this.http.get(environment.api+'/api/group/'+this.authService.getGroup())
-      .subscribe( (resGroup : any) => {
-        this.groupEmail = resGroup.email;
-        this.groupId = resGroup._id;
-        this.getUsers();
-      }, (err) => {
-        console.log(err);
-    }));
-  }
-
-  getUsers(){
+  getRequests(){
     this.loadingUsers = true;
-    this.subscription.add( this.http.get(environment.api+'/api/admin/users/'+this.groupId)
-    .subscribe( (res : any) => {
-      for(var j=0;j<res.length;j++){
-        res[j].userName = this.capitalizeFirstLetter(res[j].userName);
-        if(res[j].role=='User'){
-          res[j].icon = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000'
-        }else{
-          res[j].icon = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|4286f4'
+    this.subscription.add( this.http.get(environment.api+'/api/needs/complete')
+    .subscribe( (response : any) => {
+      if(response.success) {
+        const requests = response.data;
+        for(let request of requests){
+          request.lat = request.location.lat;
+          request.lng = request.location.lng;
+          request.formattedDate = this.dateService.transformDate(new Date(request.timestamp));
+          
+          // Mapear los IDs a sus etiquetas
+          request.formattedNeeds = request.needs.map(needId => 
+            this.needsList.find(need => need.id === needId)?.label || needId
+          ).join(', ');
+          
+          if(request.otherNeeds) {
+            request.formattedNeeds += request.formattedNeeds ? `, ${request.otherNeeds}` : request.otherNeeds;
+          }
         }
+        this.users = requests.sort((a, b) => 
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
       }
-      res.sort(this.sortService.GetSortOrderInverse("lastLogin"));
-      this.users = res;
       this.loadingUsers = false;      
     }, (err) => {
       console.log(err);
@@ -119,92 +109,104 @@ export class UsersAdminComponent implements OnDestroy{
     }));
   }
 
+  viewOnMap(row: any) {
+    // Centrar el mapa en la ubicación seleccionada
+    this.lat = row.lat;
+    this.lng = row.lng;
+    this.zoom = 16; // Zoom más cercano para ver mejor la ubicación
+
+    // Opcional: resaltar el marcador seleccionado
+    this.users = this.users.map(user => ({
+      ...user,
+      icon: user._id === row._id ? 'assets/images/marker-highlighted.png' : undefined
+    }));
+
+    // Scroll suave hasta el mapa
+    const mapElement = document.querySelector('agm-map');
+    if (mapElement) {
+      mapElement.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Mostrar un popup con los detalles
+    Swal.fire({
+      title: 'Detalles de la necesidad',
+      html: `
+        <p><strong>Fecha:</strong> ${row.formattedDate}</p>
+        <p><strong>Necesidades:</strong> ${row.formattedNeeds}</p>
+        <p><strong>Ubicación:</strong> ${row.lat}, ${row.lng}</p>
+      `,
+      icon: 'info'
+    });
+  }
+
+
+  deleteNeed(id: string) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Esta acción no se puede deshacer",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete(`${environment.api}/api/needs/${id}`).subscribe(
+          (response: any) => {
+            if (response.success) {
+              Swal.fire(
+                'Eliminado',
+                'La necesidad ha sido eliminada',
+                'success'
+              );
+              this.getRequests(); // Recargar la lista
+            } else {
+              Swal.fire(
+                'Error',
+                'No se pudo eliminar la necesidad',
+                'error'
+              );
+            }
+          },
+          (error) => {
+            console.error('Error:', error);
+            Swal.fire(
+              'Error',
+              'Ocurrió un error al eliminar la necesidad',
+              'error'
+            );
+          }
+        );
+      }
+    });
+  }
+
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-
-  getNameCountry(value){
-    var res = '';
-    var enc=false;
-    for(var i =0; i<this.countries.length;i++){
-      if(this.countries[i].code==value){
-        res= this.countries[i].name;
-        enc = true;
-      }
-    }
-    return res;
-
-  }
-
-  fieldStatusChanged(row){
-    var status = row.status;
-    if(row.status=='new'){
-      status = this.translate.instant("war.status.opt1");
-    }else if(row.status=='contacted'){
-      status = this.translate.instant("war.status.opt2");
-    }else if(row.status=='pending'){
-      status = this.translate.instant("war.status.opt3");
-    }else if(row.status=='ontheway'){
-      status = this.translate.instant("war.status.opt4");
-    }else if(row.status=='contactlost'){
-      status = this.translate.instant("war.status.opt5");
-    }else if(row.status=='helped'){
-      status = this.translate.instant("war.status.opt6");
-    }
-    var data = {status: row.status, email: row.email, groupEmail: row.groupEmail, userName: row.userName,lang: row.lang, group: this.authService.getGroup(), statusInfo: status};
-    if(row.role=='User'){
-      this.subscription.add( this.http.put(environment.api+'/api/patient/status/'+row.patientId, data)
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
-       }, (err) => {
-         console.log(err);
-       }));
-    }else{
-      this.subscription.add( this.http.put(environment.api+'/api/requestclin/status/'+row.patientId, data)
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
-       }, (err) => {
-         console.log(err);
-       }));
-    }
+  
+  fieldStatusChanged(row: any) {
+    const status = row.status;
+    const statusInfo = this.translate.instant(`needs.status.${status}`);
     
-    //this.user = user;
-  }
+    const data = { 
+      status: status,
+      statusInfo: statusInfo
+    };
 
-  saveNotes(){
-    var data = {notes: this.user.notes};
-    if(this.user.role=='User'){
-      this.subscription.add( this.http.put(environment.api+'/api/patients/changenotes/'+this.user.patientId, data)
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
-       }, (err) => {
-         console.log(err);
-       }));
-    }else{
-      this.subscription.add( this.http.put(environment.api+'/api/requestclin/changenotes/'+this.user.patientId, data)
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
-       }, (err) => {
-         console.log(err);
-       }));
-    }
-    
-    //this.user = user;
-  }
-
-  closePanel(){
-    this.modalReference.close();
-  }
-
-
-  userChangedEvent(user, event){
-    var data = {blockedaccount: event} ;
-    this.subscription.add( this.http.put(environment.api+'/api/admin/users/state/'+user.userId, data)
-    .subscribe( (res : any) => {
-      console.log(res);
-     }, (err) => {
-       console.log(err);
-     }));
+    this.subscription.add(
+      this.http.put(`${environment.api}/api/needs/status/${row._id}`, data)
+        .subscribe(
+          (res: any) => {
+            this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+          },
+          (err) => {
+            console.log(err);
+            this.toastr.error('', this.translate.instant("generics.Error saving data"));
+          }
+        )
+    );
   }
 
 
@@ -241,74 +243,38 @@ export class UsersAdminComponent implements OnDestroy{
 
   }
 
-  viewInfoPatient(user,InfoPatient){
-    this.user = user;
-    if(user.lat!=''){
-      this.lat = Number(user.lat)
-      this.lng = Number(user.lng)
-      this.zoom = 5;
-    }
+  onMarkerClick(request: any) {
+    console.log('Marker clicked:', request); // Para verificar que se llama
+    this.selectedRow = request;
     
-    let ngbModalOptions: NgbModalOptions = {
-      keyboard: false,
-      windowClass: 'ModalClass-xl'// xl, lg, sm
-    };
-    this.modalReference = this.modalService.open(InfoPatient, ngbModalOptions);
+    // Encontrar el índice de la fila
+    const rowIndex = this.users.findIndex(user => user === request);
+    
+    if (rowIndex >= 0) {
+        // Calcular la página donde está la fila
+        const pageSize = this.table.pageSize || 10;
+        const pageNumber = Math.floor(rowIndex / pageSize);
+        this.table.offset = pageNumber;
+        
+        // Esperar a que se actualice la vista
+        setTimeout(() => {
+            // Buscar la fila por su índice
+            const rows = document.querySelectorAll('.datatable-row-wrapper');
+            const targetRow = rows[rowIndex % pageSize];
+            
+            if (targetRow) {
+                //targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetRow.classList.add('flash-highlight');
+                setTimeout(() => targetRow.classList.remove('flash-highlight'), 1000);
+            }
+        }, 100);
+    }
   }
 
-  goToLink(msg){
-    var description = msg.replace(/\n/g, "%0A")
-    var url = 'https://translate.google.com/?hl=en&sl=uk&tl='+this.lang+'&text='+description+'&op=translate'
-      window.open(url, "_blank");
-  }
-
-  setPositionMap(row){
-    this.lat = Number(row.lat)
-    this.lng = Number(row.lng)
-    this.zoom = 6;
-    window.scrollTo(0, 0)
-  }
-
-  openModal(rowIndex, row,EmailPanel){
-    this.rowIndex = rowIndex;
-    this.emailMsg = row.email;
-    this.msgList = row.msgs;
-    let ngbModalOptions: NgbModalOptions = {
-      keyboard: false,
-      windowClass: 'ModalClass-lg'// xl, lg, sm
-    };
-    this.modalReference = this.modalService.open(EmailPanel, ngbModalOptions);
-  }
-
-  fieldStatusChanged2(msg, index){
-    console.log(index)
-    msg.statusDate = Date.now();
-    this.subscription.add( this.http.put(environment.api+'/api/support/'+msg._id, msg)
-    .subscribe( (res : any) => {
-      //this.loadMsg();
-      this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
-      this.users[this.rowIndex].msgs[index].status = msg.status;
-      this.users[this.rowIndex].unread = false;
-      this.users[this.rowIndex].msgs.forEach(function(u) {
-        if(u.status=='unread'){
-          this.users[this.rowIndex].unread = true;
-        }
-      }.bind(this))
-     }, (err) => {
-       console.log(err.error);
-       if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-         this.authGuard.testtoken();
-       }else{
-         this.toastr.error('', this.translate.instant("generics.error try again"));
-       }
-     }));
-  }
-
-  goToLinkMsg(msg){
-    var description = msg.description.replace(/\n/g, "%0A")
-    var url = 'https://translate.google.com/?hl=en&sl=uk&tl='+this.lang+'&text=Subject:%0A'+msg.subject+'%0A%0AMessage:%0A'+description+'&op=translate'
-      window.open(url, "_blank");
-  }
-  
+getRowClass = (row: any) => {
+  return {
+    'selected-row': this.selectedRow === row
+  };
+}
 
 }

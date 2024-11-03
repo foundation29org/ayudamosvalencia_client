@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ export interface NeedRequest {
     styleUrls: ['./land-page.component.scss'],
 })
 
-export class LandPageComponent implements OnInit {
+export class LandPageComponent implements OnInit, OnDestroy {
     lang: string = 'es';
     lat: number = 39.4699; // Coordenadas por defecto de Valencia
     lng: number = -0.3763;
@@ -45,6 +45,7 @@ export class LandPageComponent implements OnInit {
     showMarker: boolean = false;
     map: any;
     mapClickListener: any;
+    private debounceTimeout: any;
 
     constructor(public translate: TranslateService, private zone: NgZone, private http: HttpClient) {
         this.lang = sessionStorage.getItem('lang') || 'es';
@@ -71,37 +72,65 @@ export class LandPageComponent implements OnInit {
         this.getCurrentLocation();
     }
 
+    ngOnDestroy() {
+        // Eliminar listener del mapa si existe
+        if (this.mapClickListener) {
+          google.maps.event.removeListener(this.mapClickListener);
+          this.mapClickListener = null;
+        }
+
+        if (this.debounceTimeout) {
+            clearTimeout(this.debounceTimeout);
+            this.debounceTimeout = null;
+          }
+    
+      }
+
     getCurrentLocation() {
         console.log(navigator.geolocation)
         if (navigator.geolocation) {
-            console.log('Obteniendo ubicación...');
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.lat = position.coords.latitude;
-                    this.lng = position.coords.longitude;
-                    this.locationDenied = false;
-                    console.log('Location obtained:', this.lat, this.lng);
-                    this.showMarker = false;
-                }, 
-                (error) => {
-                    console.log('Error de geolocalización:', error);
-                    this.locationDenied = true;
-                    
-                    if (error.code === 1) { // Permiso denegado
-                        this.showLocationInstructions();
-                    } else {
-                        this.lat = 39.4699; // Valencia
-                        this.lng = -0.3763;
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error de ubicación',
-                            html: 'No se pudo obtener tu ubicación. <br><br>' +
-                                 'Si ya has dado permiso de ubicación, por favor intenta <strong>recargar la página</strong>. ',
-                            confirmButtonText: 'Entendido'
-                        });
-                    }
-                }
-            );
+            clearTimeout(this.debounceTimeout);
+            this.debounceTimeout = setTimeout(() => {
+                console.log('Obteniendo ubicación...');
+                navigator.geolocation.getCurrentPosition(
+                  (position) => {
+                    this.zone.run(() => {
+                      this.lat = position.coords.latitude;
+                      this.lng = position.coords.longitude;
+                      this.locationDenied = false;
+                      this.showMarker = false;
+                      console.log('Location obtained:', this.lat, this.lng);
+                    });
+                  },
+                  (error) => {
+                    this.handleGeolocationError(error);
+                  },
+                  {
+                    enableHighAccuracy: false,
+                    timeout: 5000,
+                    maximumAge: 10000,
+                  }
+                );
+              }, 500); // Debounce de medio segundo para evitar llamadas frecuentes.
+        }
+    }
+
+    handleGeolocationError(error: any) {
+        console.log('Error de geolocalización:', error);
+        this.locationDenied = true;
+        
+        if (error.code === 1) { // Permiso denegado
+            this.showLocationInstructions();
+        } else {
+            this.lat = 39.4699; // Valencia
+            this.lng = -0.3763;
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de ubicación',
+                html: 'No se pudo obtener tu ubicación. <br><br>' +
+                     'Si ya has dado permiso de ubicación, por favor intenta <strong>recargar la página</strong>. ',
+                confirmButtonText: 'Entendido'
+            });
         }
     }
 
@@ -199,20 +228,8 @@ export class LandPageComponent implements OnInit {
                          '<br><br>Si el problema persiste, te recomendamos probar con Google Chrome, o Microsoft Edge, ya que suele tener mejor compatibilidad con la geolocalización.',
                     confirmButtonText: 'Entendido'
                 });
-                /*Swal.fire({
-                    icon: 'info',
-                    title: 'Obteniendo ubicación',
-                    text: 'Estamos obteniendo tu ubicación. Puede tardar hasta 30 segundos. Por favor, espera unos segundos y vuelve a intentarlo.',
-                    confirmButtonText: 'Entendido'
-                });*/
                 return;
             }
-            //this.getCurrentLocation();
-            /*Swal.fire({
-                icon: 'warning',
-                text: 'Por favor, activa la ubicación para enviar tu solicitud',
-                confirmButtonText: 'Entendido'
-            });*/
             return;
         }
         if (this.needs.length === 0 && !this.otherNeeds) {

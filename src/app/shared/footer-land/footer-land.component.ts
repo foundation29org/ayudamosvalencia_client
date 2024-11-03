@@ -2,8 +2,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-declare let gtag: any;
-
 @Component({
     selector: 'app-footer-land',
     templateUrl: './footer-land.component.html',

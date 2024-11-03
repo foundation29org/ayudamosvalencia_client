@@ -1,136 +1,123 @@
 <div style="font-size: 12px;">
   <a id="initpos"></a>
-  <section *ngIf="role!='Dravet'">
+  <section>
     <div class="modal-header">
-      <h4 class="modal-title">{{'registration.Privacy Policy' | translate }}</h4>
+      <h4 class="modal-title">Política de Privacidad</h4>
     </div>
     <div class="modal-body card">
-      <h5>{{'policy.CONTENT' | translate }}</h5>
-      <ol>
-        <li><a class="info" (click)="goTo('step1')">{{'policy.step1' | translate }}</a></li>
-        <li><a class="info" (click)="goTo('step2')">{{'prereg.t1' | translate }}</a></li>
-        <li><a class="info" (click)="goTo('step3')">{{'policy.step2' | translate }}</a></li>
-        <li><a class="info" (click)="goTo('step4')">{{'prereg.t2' | translate }}</a></li>
-        <li><a class="info" (click)="goTo('step5')">{{'prereg.t3' | translate }}</a></li>
-        <li><a class="info" (click)="goTo('step6')">{{'prereg.t6' | translate }}</a></li>
-        <li><a class="info" (click)="goTo('step7')">{{'policy.step4' | translate }}</a></li>
-      </ol>
-      <a id="step1"></a>
-      <div>
-        <h6 class="pt-2 dark text-bold-600">1. {{'policy.step1' | translate }}</h6>
-        <p>
-          {{'policy.step1-1' | translate }}:
-        </p>
-        <ul>
-          <li>Hospital Sant Joan de Déu</li>
-          <li>NIF: R5800645C</li>
-          <li>{{'policy.step1-2' | translate }}: Passeig Sant Joan de Déu, 2 – 08950 - Esplugues de Llobregat, Barcelona</li>
-          <li>{{'generics.Email' | translate }}: info@sjdhospitalbarcelona.org</li>
+      <section class="mb-4">
+        <p>Esta es una aplicación en pruebas que servirá para ayudar las necesidades de tu comunidad en tiempo real.</p>
+    
+        <p>No tratamos tus datos personales. Todos los reportes son completamente anónimos.</p>
+    
+        <h6 class="primary">Información que recopilamos</h6>
+        <p>Solo recopilamos la siguiente información:</p>
+        <ul class="custom-bullet-list">
+          <li>Ubicación geográfica</li>
+          <li>Necesidades básicas seleccionadas</li>
+          <li>Comentarios adicionales proporcionados</li>
         </ul>
-      </div>
-      <a id="step2"></a>
-      <div>
-        <h6 class="pt-2 dark text-bold-600">2. {{'prereg.t1' | translate }}</h6>
-        <p>
-          {{'prereg.a0' | translate }}
-        </p>
-        <ul>
-          <li>
-            {{'prereg.a1' | translate }}
-          </li>
-          <li>
-            {{'prereg.a2' | translate }}
-          </li>
+    
+        <h6 class="primary">Uso de la información</h6>
+        <p>La información se utiliza exclusivamente para:</p>
+        <ul class="custom-bullet-list">
+          <li>Coordinar la ayuda durante la emergencia</li>
+          <li>Análisis estadístico anónimo</li>
         </ul>
-      </div>
-      <a id="step3"></a>
-      <div>
-        <h6 class="pt-2 dark text-bold-600">3. {{'policy.step2' | translate }}</h6>
-        <p>
-          {{'policy.step2-1' | translate }}:
-        </p>
-        <ul>
-          <li>{{'policy.step2-2' | translate }}
-            <ul>
-              <li>{{'policy.step2-2.1' | translate }}</li>
-              <li>{{'policy.step2-2.2' | translate }}</li>
-              <li>{{'policy.step2-2.3' | translate }}</li>
-            </ul>
-          </li>
-          <li>{{'policy.step2-3' | translate }}
-            <ul>
-              <li>{{'policy.step2-3.1' | translate }}</li>
-              <li>{{'policy.step2-3.2' | translate }}</li>
-              <li>{{'policy.step2-3.3' | translate }}</li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <a id="step4"></a>
-      <div>
-        <h6 class="pt-2 dark text-bold-600">4. {{'prereg.t2' | translate }}</h6>
-        <p>
-          {{'prereg.a2.1' | translate }}
-        </p>
-        <p>
-          {{'prereg.a2.2' | translate }}
-        </p>
-      </div>
-      <a id="step5"></a>
-      <div>
-        <h6 class="pt-2 dark text-bold-600">5. {{'prereg.t3' | translate }}</h6>
-        <p>
-          {{'prereg.a3' | translate }}
-        </p>
-        <p>
-          {{'prereg.a3.1' | translate }}
-        </p>
-        <p>
-          {{'prereg.a3.2' | translate }}
-        </p>
-      </div>
-      
-      <a id="step6"></a>
-      <div>
-        <h6 class="pt-2 dark text-bold-600">6. {{'prereg.t6' | translate }}</h6>
-        <p>
-          {{'prereg.a6' | translate }}
-        </p>
-        <p>
-          {{'prereg.a6.1' | translate }}
-        </p>
-      </div>
-      <a id="step7"></a>
-       <div>
-         <h6 class="pt-2 dark text-bold-600">7. {{'policy.step4' | translate }}</h6>
-         {{'policy.step4-1' | translate }}:
-         <ul>
-            <li>
-              {{'policy.step4-2' | translate }}
-            </li>
-            <li>
-              {{'policy.step4-3' | translate }}
-            </li>
-            <li>
-              {{'policy.step4-4' | translate }}
-            </li>
-            <li>
-              {{'policy.step4-5' | translate }}
-            </li>
-            <li>
-              {{'policy.step4-6' | translate }}
-            </li>
-            <li>
-              {{'policy.step4-6.1' | translate }}
-            </li>
-          </ul>
+    
+        <p>Los datos almacenados durante el período de emergencia son muy valiosos para la investigación científica y se reutilizarán a tal fin garantizando el anonimato.</p>
+    
+        <p>No tratamos tus datos personales. Todos los reportes son completamente anónimos. Hemos incorporado medidas organizativas y jurídicas que garantizan tu anonimato. Debes tener en cuenta que en el caso de que la ubicación de la necesidad coincida con tu domicilio resultaras identificable cuando sea necesario para la unidad que se destine a resolver el problema que exija que la ayuda sea personalizada.</p>
+      </section>
+
+    <section class="mb-4">
+
+      <p>Su registro como usuario en el sistema de información conlleva el tratamiento de datos personales. La inscripción en el Registro de Usuario de AyudamosValencia implica la aceptación de estas condiciones. En esta política de privacidad le explicamos cómo garantizamos su derecho a la protección de datos.</p>
+      <h6 class="primary">1. ¿Quién tratará sus datos? ¿Quién es el responsable del tratamiento de datos?</h6>
+      <p>De conformidad con la normativa vigente, se informa al interesado que los datos facilitados serán tratados por Fundación 29 de Febrero, cuyos datos de contacto son los siguientes:</p>
+      <ul class="custom-bullet-list">
+        <li>NIF: G-87894119</li>
+        <li>Domicilio: Calle Santa Fe 1, 2 E. 28224 – Pozuelo de Alarcón (Madrid)</li>
+        <li>Correo electrónico: privacy@foundation29.org</li>
+      </ul>
+    </section>
+
+    <section class="mb-4">
+      <h6 class="primary">2. Delegado de Protección de Datos</h6>
+      <p>El Delegado de Protección de Datos es un responsable de cumplimiento encargado de supervisar la correcta aplicación del Reglamento General de Protección de Datos y de la legislación nacional. Es la persona que designamos para responder a sus preguntas y ayudarle a ejercer sus derechos. Puede contactar con nuestro delegado en privacy@foundation29.org</p>
+    </section>
   
-          <p>{{'policy.step4-7' | translate }}</p>
-       </div>
-      <hr>
-      <p>
-        {{'policy.other2' | translate }}
-      </p>
+    <section class="mb-4">
+      <h6 class="primary">3. ¿Con qué fines recabamos sus datos personales?</h6>
+      <p>▪ Ejecución de un contrato (6.1. b) RGPD)</p>
+    </section>
+  
+    <section class="mb-4">
+      <h6 class="primary">4. ¿Qué tipo de datos personales recabamos, almacenamos y tratamos?</h6>
+      <p>Los datos personales que podemos recabar, almacenar y tratar son: su nombre y apellidos, su dirección de correo electrónico, su puesto o cargo y entidad.</p>
+    </section>
+  
+    <section class="mb-4">
+      <h6 class="primary">5. ¿Con quién podemos compartir o divulgar sus datos? (Destinatarios)</h6>
+      <p>No está prevista la comunicación de datos.</p>
+    </section>
+  
+    <section class="mb-4">
+      <h6 class="primary">6. ¿Dónde y durante cuánto tiempo almacenaremos sus datos? (almacenamiento de datos)</h6>
+      <p>Los datos se tratarán durante el ciclo de vida de la aplicación en tanto subsista la finalidad de gestión de emergencias que la motivaron.</p>
+      <p>La información se conservará convenientemente bloqueada durante los periodos adicionales que sean necesarios para la prescripción de posibles responsabilidades legales.</p>
+    </section>
+  
+    <section class="mb-4">
+      <h6 class="primary">7. Sus derechos. ¿Cuáles son sus derechos en materia de protección de datos y cómo puede ejercerlos?</h6>
+      <p>Con el fin de mantener el control sobre sus datos en todo momento, usted tiene derecho:</p>
+      <ul class="custom-bullet-list">
+        <li>A obtener confirmación de si los datos personales que le conciernen están siendo tratados por nosotros, y a acceder a ellos;</li>
+        <li>A solicitar la rectificación de los datos personales inexactos y a completar los datos personales incompletos</li>
+        <li>A solicitar la eliminación de sus datos personales de nuestros registros;</li>
+        <li>A oponerse al tratamiento de sus datos por motivos relacionados con su situación particular;</li>
+        <li>A restringir el tratamiento de sus datos personales</li>
+        <li>A recibir sus datos personales en un formato estructurado, de uso común y lectura mecánica y a transmitir dichos datos a otro responsable del tratamiento en los términos regulados por el GDPR (portabilidad).</li>
+      </ul>
+  
+      <p class="mt-3">El ejercicio de los derechos de protección de datos es personal y, por tanto, necesitamos identificarte de forma inequívoca. Puede ejercer sus derechos de dos maneras:</p>
+  
+      <div class="contact-methods mt-3">
+        <p><strong>1. Enviando un mensaje de correo electrónico:</strong></p>
+        <p>Para ello, utilice esta dirección: privacy@foundation29.org</p>
+        <p>Sólo atenderemos las solicitudes realizadas desde las cuentas de correo electrónico facilitadas en nuestras bases de datos tras la identificación de su titular.</p>
+  
+        <p class="mt-3"><strong>2. Físicamente, escribiendo a la dirección del responsable del tratamiento. En este caso, deberá aportar documentación acreditativa:</strong></p>
+        <ul class="custom-bullet-list">
+          <li>Acreditación de la identidad del interesado mediante cualquier documento válido, como el DNI o el pasaporte.</li>
+          <li>Nombre y apellidos del interesado o, en su caso, de la persona que lo represente, y el documento que acredite dicha representación.</li>
+          <li>La petición que solicita.</li>
+          <li>Documentos acreditativos de la petición que realiza, en su caso.</li>
+          <li>En caso de rectificación o supresión, indicación de los datos que deben rectificarse o borrarse y el motivo de la rectificación o supresión.</li>
+          <li>Dirección para entregarle la información o la notificación.</li>
+          <li>Fecha y firma del solicitante.</li>
+        </ul>
+      </div>
+  
+      <p class="mt-3">Cuando la inscripción haya sido formalizada por una persona jurídica, ésta nos facilitará los datos de sus usuarios. Sin perjuicio de que puedan acceder a nuestras políticas de privacidad en la primera conexión, el solicitante de acceso a los datos informará a los interesados sobre la divulgación de los datos y estas políticas de privacidad.</p>
+    </section>
+  
+    <section class="mb-4">
+      <h6 class="primary">8. ¿Quién garantiza sus derechos y ante quién puede reclamar?</h6>
+      <p>Si desea presentar una reclamación u obtener más información sobre la regulación del tratamiento de datos personales en España, la autoridad competente es la Agencia Española de Protección de Datos (<a href="https://www.aepd.es/es" target="_blank">https://www.aepd.es/es</a>).</p>
+    </section>
+  
+    <section class="mb-4">
+      <h6 class="primary">9. Cambio en la política de privacidad</h6>
+      <p>Versión: Esta política de privacidad está en vigor a partir de 11 de noviembre de 2024</p>
+      <p>Cualquier cambio en la política de privacidad se notificará a las direcciones de correo electrónico proporcionadas por los interesados en el procedimiento de registro.</p>
+    </section>
+  
+    <section class="mb-4">
+      <h6 class="primary">10. Política de cookies</h6>
+      <p>Utilizamos cookies de servicios de Azure. Puede consultar la política de privacidad en <a href="https://azure.microsoft.com/es-es/privacy/" target="_blank">Privacidad de datos en la nube de confianza | Microsoft Azure</a></p>
+      <p>Para obtener información detallada sobre las cookies que utilizamos, sus finalidades y cómo puede configurarlas o deshabilitarlas, consulte nuestra <a [routerLink]="['/cookies']">Política de Cookies completa</a>.</p>
+    </section>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary btn-raised"

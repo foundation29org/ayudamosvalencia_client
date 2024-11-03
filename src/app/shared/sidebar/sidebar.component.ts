@@ -12,14 +12,12 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { EventsService} from 'app/shared/services/events.service';
 import { Data } from 'app/shared/services/data.service';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
-  animations: customAnimations,
-  providers: [ApiDx29ServerService]
+  animations: customAnimations
 })
 export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -50,8 +48,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private eventsService: EventsService,
      private dataservice: Data,
-     private http: HttpClient,
-     private apiDx29ServerService: ApiDx29ServerService
+     private http: HttpClient
   ) {
     if (this.depth === undefined) {
       this.depth = 0;

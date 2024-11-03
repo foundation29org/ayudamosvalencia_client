@@ -16,7 +16,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { SupportComponent } from './support/support.component';
 import {AutosizeModule} from 'ngx-autosize';
 import { SafePipe2 } from '../shared/services/safe2.pipe';
 import { MapaPageComponent } from './mapa/mapa.component';
@@ -48,7 +47,6 @@ import { MatRadioModule } from '@angular/material/radio';
     exports: [TranslateModule],
     declarations: [
         UsersAdminComponent,
-        SupportComponent,
         SafePipe2,
         MapaPageComponent
     ],

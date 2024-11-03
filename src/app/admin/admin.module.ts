@@ -16,9 +16,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { SupportComponent } from './support/support.component';
 import {AutosizeModule} from 'ngx-autosize';
 import { SafePipe } from '../shared/services/safe.pipe';
+import { MapaPageComponent2 } from './mapa/mapa.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
     imports: [
@@ -38,13 +40,15 @@ import { SafePipe } from '../shared/services/safe.pipe';
             language: sessionStorage && sessionStorage.getItem('lang') || 'es'
           }),
         NgxDatatableModule,
-        AutosizeModule
+        AutosizeModule,
+        MatCardModule,
+        MatRadioModule
     ],
     exports: [TranslateModule],
     declarations: [
         UsersAdminComponent,
-        SupportComponent,
-        SafePipe
+        SafePipe,
+        MapaPageComponent2
     ],
     providers: [],
 })

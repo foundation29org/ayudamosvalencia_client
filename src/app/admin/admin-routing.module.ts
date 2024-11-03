@@ -4,7 +4,7 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 import { UsersAdminComponent } from "./users-admin/users-admin.component";
-import { SupportComponent } from './support/support.component';
+import { MapaPageComponent2 } from './mapa/mapa.component';
 
 const routes: Routes = [
   {
@@ -20,12 +20,12 @@ const routes: Routes = [
         canActivate: [AuthGuard, RoleGuard]
       },
       {
-        path: 'support',
-        component: SupportComponent,
+        path: 'mapa',
+        component: MapaPageComponent2,
         data: {
-          title: 'Support'
+          title: 'Mapa de calor'
         }
-      }
+      }      
     ]
   }
 ];

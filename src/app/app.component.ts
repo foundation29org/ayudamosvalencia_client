@@ -1,22 +1,16 @@
-import { Component, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
-import { environment } from 'environments/environment';
-import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap'
 import { Subscription } from 'rxjs/Subscription';
-import { Router, NavigationEnd, ActivatedRoute, NavigationStart, NavigationCancel } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { LangService } from 'app/shared/services/lang.service';
 import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
-import { NgxHotjarService } from 'ngx-hotjar';
-
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 
 @Component({
@@ -27,83 +21,16 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 export class AppComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
-  private subscriptionIntervals: Subscription = new Subscription();
-  private subscriptionTestForce: Subscription = new Subscription();
-  loggerSubscription: Subscription;
   actualPage: string = '';
-  hasLocalLang: boolean = false;
-  actualScenarioHotjar: any = { lang: '', scenario: '' };
   tituloEvent: string = '';
-  role: string = '';
 
 
-  constructor(private http: HttpClient, public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService: LangService, private eventsService: EventsService, protected $hotjar: NgxHotjarService) {
-
-    if (sessionStorage.getItem('lang')) {
-      this.translate.use(sessionStorage.getItem('lang'));
-      this.hasLocalLang = true;
-    } else {
-      this.translate.use('en');
-      sessionStorage.setItem('lang', 'en');
-      this.hasLocalLang = false;
-    }
-
-    this.loadLanguages();
-    this.loadCultures();
-
-  }
-
-  loadLanguages() {
-    this.langService.getLangs()
-      .subscribe((res: any) => {
-        if (!this.hasLocalLang) {
-          const browserLang: string = this.translate.getBrowserLang();
-          for (let lang of res) {
-            if (browserLang.match(lang.code)) {
-              this.translate.use(lang.code);
-              sessionStorage.setItem('lang', lang.code);
-              this.eventsService.broadcast('changelang', lang.code);
-            }
-          }
-        }
-      }, (err) => {
-        console.log(err);
-      })
-  }
-
-  loadCultures() {
-    const browserCulture: string = this.translate.getBrowserCultureLang();
-    sessionStorage.setItem('culture', browserCulture);
-
-  }
-
-  launchHotjarTrigger(lang) {
-    this.actualScenarioHotjar.scenario = 'fake'
-    if (lang == 'es') {
-      var ojb = { lang: lang, scenario: 'generalincoming_es' };
-      this.testHotjarTrigger(ojb);
-    } else {
-      var ojb = { lang: lang, scenario: 'generalincoming_en' };
-      this.testHotjarTrigger(ojb);
-    }
-  }
-
-  testHotjarTrigger(obj) {
-    if (obj.scenario != this.actualScenarioHotjar.scenario) {
-      setTimeout(function () {
-        if (obj.lang == 'es') {
-          this.$hotjar.trigger(obj.scenario);
-          this.actualScenarioHotjar = obj
-        } else {
-          this.$hotjar.trigger(obj.scenario);
-          this.actualScenarioHotjar = obj
-        }
-      }.bind(this), 1000);
-    }
+  constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private eventsService: EventsService) {
+    this.translate.use('es');
+    sessionStorage.setItem('lang', 'es');
   }
 
   ngOnInit() {
-    //evento que escucha si ha habido un error de conexión
     this.eventsService.on('http-error', function (error) {
       var msg1 = 'No internet connection';
       var msg2 = 'Trying to connect ...';
@@ -153,27 +80,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }.bind(this));
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        var actualUrl = this.activatedRoute.snapshot['_routerState'].url;
-        if (actualUrl.indexOf("undiagnosed;role=") != -1) {
-          this.role = actualUrl.split("undiagnosed;role=")[1];
-        } else if (actualUrl.indexOf("undiagnosed") != -1) {
-          this.role = "undiagnosed";
-        } else if (actualUrl.indexOf('diagnosed') != -1) {
-          this.role = "diagnosed";
-        } else {
-          this.role = '';
-        }
-
-        if (sessionStorage.getItem('lang') != undefined) {
-          this.launchHotjarTrigger(sessionStorage.getItem('lang'));
-        } else {
-          this.launchHotjarTrigger('en');
-        }
-      }
-    })
-
     this.subscription = this.router.events
       .filter((event) => event instanceof NavigationEnd)
       .map(() => this.activatedRoute)
@@ -198,44 +104,18 @@ export class AppComponent implements OnInit, OnDestroy {
         this.actualPage = event['title'];
       });
 
-    this.eventsService.on('changelang', function (lang) {
-      this.launchHotjarTrigger(lang);
-      (async () => {
-        await this.delay(500);
-        var titulo = this.translate.instant(this.tituloEvent);
-        this.titleService.setTitle(titulo);
-        sessionStorage.setItem('lang', lang);
-      })();
-
-
-    }.bind(this));
-
-    this.eventsService.on('changeEscenarioHotjar', function (obj) {
-      this.testHotjarTrigger(obj);
-    }.bind(this));
-
   }
 
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-  // when the component is destroyed, unsubscribe to prevent memory leaks
+
   ngOnDestroy() {
-    if (this.loggerSubscription) {
-      this.loggerSubscription.unsubscribe();
-    }
 
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
 
-    if (this.subscriptionIntervals) {
-      this.subscriptionIntervals.unsubscribe();
-    }
-
-    if (this.subscriptionTestForce) {
-      this.subscriptionTestForce.unsubscribe();
-    }
   }
 
 }

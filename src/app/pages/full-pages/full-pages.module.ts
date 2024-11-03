@@ -8,9 +8,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AutosizeModule} from 'ngx-autosize';
 import { UiSwitchModule } from 'ngx-ui-switch';
 
-import { UserProfilePageComponent } from "./user-profile/user-profile-page.component";
-import { SupportComponent } from './support/support.component';
-
 
 @NgModule({
     exports: [
@@ -27,8 +24,6 @@ import { SupportComponent } from './support/support.component';
         UiSwitchModule
     ],
     declarations: [
-        UserProfilePageComponent,
-        SupportComponent
     ]
 })
 export class FullPagesModule { }

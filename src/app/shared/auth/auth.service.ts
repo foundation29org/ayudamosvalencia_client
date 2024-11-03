@@ -7,6 +7,9 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import * as decode from 'jwt-decode';
 import { ICurrentPatient } from './ICurrentPatient.interface';
+import { catchError, tap } from 'rxjs/operators'
+import { of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class AuthService {
@@ -54,7 +57,7 @@ export class AuthService {
       }else if(tokenPayload.role == 'Admin'){
         // Admin
         this.setGroup(tokenPayload.group);
-        this.setRedirectUrl('/admin/users')
+        this.setRedirectUrl('/admin/mapa')
       }
       else{
         // is role user
@@ -88,7 +91,7 @@ export class AuthService {
     }else if(tokenPayload.role == 'Admin'){
       // Admin
       this.setGroup(tokenPayload.group);
-      this.setRedirectUrl('/admin/users')
+      this.setRedirectUrl('/admin/mapa')
     }else{
       // is role user
       this.setRedirectUrl('/home')
@@ -98,33 +101,64 @@ export class AuthService {
     sessionStorage.setItem('token', token)
   }
 
-  signinUser(formValue: any): Observable<boolean> {
+  login(formValue: any): Observable<boolean> {
     //your code for signing up the new user
-    return this.http.post(environment.api+'/api/signin',formValue)
-      .map( (res : any) => {
+    return this.http.post(environment.api+'/api/login',formValue)
+    .pipe(
+      tap((res: any) => {
+        console.log(res);
+          if(res.message == "Check email"){
+            var msg = "";
+            this.isloggedIn = true;
+            return res; 
+          }else{
+            this.isloggedIn = false;
+            this.setMessage(res.message);
+            return res; 
+          }
+        }),
+        catchError((err) => {
+          console.log(err);
+          //this.isLoginFailed = true;
+          this.setMessage("Login failed");
+          this.isloggedIn = false;
+          return of(this.isloggedIn); // aquí devuelves un observable que emite this.isloggedIn en caso de error
+        })
+      );
+  }
+
+  checkLogin(formValue: any): Observable<boolean> {
+    //your code for signing up the new user
+    return this.http.post(environment.api+'/api/checkLogin',formValue)
+    .pipe(
+      tap((res: any) => {
           if(res.message == "You have successfully logged in"){
-            //entrar en la app
-            this.setLang(res.lang);
-            sessionStorage.setItem('lang', res.lang)
-
             this.setEnvironment(res.token);
-
-            this.setPlatform(res.platform);
-            sessionStorage.setItem('platform', res.platform)
-
+          }else if(res.message == "Link expired"){
+            this.isloggedIn = false;
+            Swal.fire({
+              title: 'El enlace de acceso ha expirado',
+              html: '<p class="mt-2">Lo sentimos, el enlace para acceder a tu cuenta ha expirado por motivos de seguridad. Por favor, vuelve a introducir tu email.</p>',
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#DD6B55',
+              confirmButtonText: 'Ok'
+            }).then((result) => {
+            })
           }else{
             this.isloggedIn = false;
           }
           this.setMessage(res.message);
           return this.isloggedIn;
-       }, (err) => {
-         console.log(err);
-         //this.isLoginFailed = true;
-         this.setMessage("Login failed");
-         this.isloggedIn = false;
-         return this.isloggedIn;
-       }
-    );
+        }),
+        catchError((err) => {
+          console.log(err);
+          //this.isLoginFailed = true;
+          this.setMessage("Login failed");
+          this.isloggedIn = false;
+          return of(this.isloggedIn); // aquí devuelves un observable que emite this.isloggedIn en caso de error
+        })
+      );
   }
 
   logout() {

@@ -6,8 +6,6 @@ import { ContentPagesRoutingModule } from "./content-pages-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ErrorPageComponent } from "./error/error-page.component";
-import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
-import { NewPasswordPageComponent } from "./new-password/new-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
 import { TermsConditionsPageComponent } from "./terms-conditions/terms-conditions-page.component";
@@ -41,10 +39,8 @@ import { MatRadioModule } from '@angular/material/radio';
     ],
     declarations: [
         ErrorPageComponent,
-        ForgotPasswordPageComponent,
         LoginPageComponent,
         RegisterPageComponent,
-        NewPasswordPageComponent,
         TermsConditionsPageComponent,
         PasswordValidator,
         MyFilterPipe
